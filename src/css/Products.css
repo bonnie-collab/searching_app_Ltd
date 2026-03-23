@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap');
+
+/* ── Navigation bar wrapper ── */
+.pnav-wrapper {
+  font-family: 'Barlow', sans-serif;
+  background: #fff;
+  border-bottom: 2px solid #f0f0f0;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+}
+
+/* top row: heading left, search right */
+.pnav-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* page heading */
+.pnav-heading {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ── Search bar ── */
+.pnav-search-form {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #ddd;
+  border-radius: 30px;
+  padding: 6px 14px;
+  gap: 8px;
+  background: #fafafa;
+  transition: border-color 0.2s;
+}
+
+/* highlight search bar border when user is typing inside it */
+.pnav-search-form:focus-within {
+  border-color: #e8860a;
+  background: #fff;
+}
+
+.pnav-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  color: #333;
+  width: 200px;
+}
+
+.pnav-search-input::placeholder {
+  color: #bbb;
+}
+
+/* ── Category pills row ── */
+.pnav-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* base pill style applied to all category buttons */
+.pnav-pill {
+  display: inline-block;
+  padding: 7px 18px;
+  border-radius: 30px;
+  border: 1.5px solid #ccc;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #444;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  font-family: 'Barlow', sans-serif;
+}
+
+/* hover state for inactive pills */
+.pnav-pill:hover {
+  border-color: #e8860a;
+  color: #e8860a;
+  background: #fff8f0;
+}
+
+/* active/selected pill — matches the orange style in the design */
+.pnav-pill.active {
+  background: #e8860a;
+  border-color: #e8860a;
+  color: #fff;
+}
+
+/* keep active pill slightly darker on hover to show it is still clickable */
+.pnav-pill.active:hover {
+  background: #cf7509;
+  border-color: #cf7509;
+  color: #fff;
+}
+
+/* ── Product image inside each card ── */
+.product_image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ── Empty state message shown when no products match the filter or search ── */
+.pnav-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* ── Responsive: stack heading and search on small screens ── */
+@media (max-width: 640px) {
+  .pnav-wrapper {
+    padding: 14px 16px;
+  }
+
+  .pnav-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .pnav-search-input {
+    width: 140px;
+  }
+}
