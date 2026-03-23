@@ -37,13 +37,13 @@ const Getproducts = () => {
   const navigate = useNavigate();
 
   // insert of the image url to display image
-  const img_url = "https://btigar.alwaysdata.net/static/images/";
+  const img_url = "https://bonnie.alwaysdata.net/static/images/";
 
   // create a function to help fetch the products from you API
   const fetchProducts = async () => {
     try {
       // interact with your endpoint for fetching the request
-      const response = await axios.get("https://btigar.alwaysdata.net/api/get_products");
+      const response = await axios.get("https://bonnie.alwaysdata.net/product/get_products");
       // set update the product hook wit the response given from the API
       setProducts(response.data);
       // set the loading hook back to default

@@ -1,159 +1,136 @@
 import React, { useRef, useState } from 'react'
 import Loader from './Loader';
 import axios from 'axios';
+import '../css/Addproducts.css';   // ← import the stylesheet
 
 const Addproducts = () => {
 
-  // define the hooks 
-  const[product_name, setProductName] = useState("");
-  const[product_description, setProductDescription] = useState("");
-  const[product_cost, setProductCost] = useState("");
-  const[product_photo, setProductPhoto] = useState("");
+  const [product_name, setProductName] = useState("");
+  const [product_description, setProductDescription] = useState("");
+  const [product_cost, setProductCost] = useState("");
+  const [product_photo, setProductPhoto] = useState("");
+  const [category, setCategory] = useState("power_tools");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
 
-  // declare a hook to store the selected product category
-  // defaults to "power_tools" so the form always has a valid value on first submit
-  const[category, setCategory] = useState("power_tools");
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  // decleare additional hook to manage state
-  const[loading, setLoading] = useState(false);
-  const[success, setSuccess] = useState("");
-  const[error, setError] = useState("");
-  const fileInputRef = useRef(null)
-
-  // create a function that will handle submit action
-  const handlesubmit = async (e) =>{
-    // prevent the site from reloading
-    e.preventDefault()
-
-    // setloading hook with a message (activate it )
-    setLoading(true)
-
-    try{
-      // create a formdata
-      const formdata = new FormData()
-
-      // append the details to the form
-      formdata.append("product_name",product_name);
-      formdata.append("product_description",product_description);
-      formdata.append("product_cost",product_cost);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_name", product_name);
+      formdata.append("product_description", product_description);
+      formdata.append("product_cost", product_cost);
       formdata.append("product_photo", product_photo);
-
-      // append the selected category so the backend can store it in the category column
       formdata.append("category", category);
 
-      // axios to use to interact with method post
-      const response = await axios.post("https://btigar.alwaysdata.net/api/add_product",formdata)
+      const response = await axios.post("https://bonnie.alwaysdata.net/api/add_product", formdata);
 
-    // setloading back to default
-    setLoading(false)
+      setLoading(false);
+      setSuccess(response.data.message);
+      setProductName("");
+      setProductDescription("");
+      setProductCost("");
+      setProductPhoto("");
+      setCategory("power_tools");
+      fileInputRef.current.value = "";
 
-    // update the hooks with a message
-    setSuccess(response.data.message)
-
-    // clear the hooks to default
-    setProductName("");
-    setProductDescription("");
-    setProductCost("");
-    setProductPhoto("");
-
-    // reset category dropdown back to the first option after successful submit
-    setCategory("power_tools");
-
-    fileInputRef.current.value = "";  //clears the file input display
-
-    setTimeout(() => {
-        setSuccess("");
-      }, 5000);
-
+      setTimeout(() => setSuccess(""), 5000);
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
     }
-    catch(error){
-      // setloaading back to default
-      setLoading(false)
-
-      // update the seterror with a message
-      setError(error.message)
-    }
-  }
+  };
 
   return (
-    <div className='row justify-content-center mt-5'>
-      <div className="col-md-6 p-6 shadow">
-        <h3 className='text-primary'>welcome to the product page</h3>
+    <div className="ap-wrapper">
+      <div className="ap-card">
 
-        {/* bind the loading hook */}
-        {loading && <Loader/>}
+        <h3 className="ap-heading">Add a product</h3>
 
-        <h3 className='text-success'>{success}</h3>
-        <h4 className='text-danger'>{error}</h4>
+        {loading && <Loader />}
+        {success && <p className="ap-success">{success}</p>}
+        {error   && <p className="ap-error">{error}</p>}
 
         <form onSubmit={handlesubmit}>
 
-          {/* product name */}
-          <input type="text" 
-          placeholder='Enter the product name'
-          className='form-control'
-          required
-          value={product_name}
-          onChange={(e) => setProductName(e.target.value)}
-          /> <br />
+          <div className="ap-field">
+            <label className="ap-label">Product / machinery name</label>
+            <input
+              type="text"
+              placeholder="Enter the product name"
+              className="ap-input"
+              required
+              value={product_name}
+              onChange={(e) => setProductName(e.target.value)}
+            />
+          </div>
 
-          {/* product description */}
-          <input type="text"
-          placeholder='enter the description of product'
-          className='form-control'
-          required
-          value={product_description}
-          onChange={(e) => setProductDescription(e.target.value)}
-          /> <br />
+          <div className="ap-field">
+            <label className="ap-label">Description</label>
+            <textarea
+              placeholder="Enter a description of the product"
+              className="ap-textarea"
+              required
+              value={product_description}
+              onChange={(e) => setProductDescription(e.target.value)}
+              rows="4"
+            />
+          </div>
 
-          {/* product cost */}
-          <input type="number"
-          placeholder='enter your price cost'
-          className='form-control'
-          required 
-          value={product_cost}
-          onChange={(e) => setProductCost(e.target.value)}
-          /> <br />
+          <div className="ap-field">
+            <label className="ap-label">Hire rate / cost</label>
+            <input
+              type="number"
+              placeholder="Enter the price"
+              className="ap-input"
+              required
+              value={product_cost}
+              onChange={(e) => setProductCost(e.target.value)}
+            />
+          </div>
 
-          {/* product category dropdown */}
-          {/* the selected value is stored in the category hook and appended to formdata on submit */}
-          <label className='text-primary'>Product Category</label>
-          <select
-            className='form-control'
-            required
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {/* each option value must match the category values used in Getproducts.jsx */}
-            <option value="">-- Select a Category --</option>
-            <option value="power_tools">Power Tools</option>
-            <option value="hand_tools">Hand Tools</option>
-            <option value="building_materials">Building Materials</option>
-            <option value="plumbing">Plumbing</option>
-            <option value="electrical">Electrical</option>
-            <option value="safety_gear">Safety Gear</option>
-          </select> <br />
+          <div className="ap-field">
+            <label className="ap-label">Category</label>
+            <select
+              className="ap-select"
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">-- Select a Category --</option>
+              <option value="power_tools">Power Tools</option>
+              <option value="hand_tools">Hand Tools</option>
+              <option value="building_materials">Building Materials</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="safety_gear">Safety Gear</option>
+            </select>
+          </div>
 
-          {/* product photo */}
-          <label className="text-primary">Product Photo</label>
-          <input type="file"
-          className='form-control'
-          required
-          ref={fileInputRef}
-          accept='image/*'
-          onChange={(e) => setProductPhoto(e.target.files[0])} 
-          /> <br />
+          <div className="ap-field">
+            <label className="ap-label">Product photo</label>
+            <input
+              type="file"
+              className="ap-file"
+              required
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={(e) => setProductPhoto(e.target.files[0])}
+            />
+          </div>
 
-          <input type="submit"
-          value = "add product"
-          className='btn btn-primary'
-          /> <br /> <br />
+          <button type="submit" className="ap-submit" disabled={loading}>
+            {loading ? "Adding…" : "Add product"}
+          </button>
 
         </form>
       </div>
-      
     </div>
-  )
-}
+  );
+};
 
 export default Addproducts;

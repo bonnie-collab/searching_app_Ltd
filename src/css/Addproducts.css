@@ -1,0 +1,224 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700&display=swap');
+
+/* ── Root tokens ── */
+:root {
+  --ap-bg:         #f4f1ec;
+  --ap-card:       #ffffff;
+  --ap-border:     #e0dbd2;
+  --ap-accent:     #1a1a2e;
+  --ap-accent2:    #e05a2b;
+  --ap-muted:      #7a7570;
+  --ap-success:    #2d7a4f;
+  --ap-danger:     #c0392b;
+  --ap-radius:     16px;
+  --ap-input-h:    44px;
+  --ap-font-body:  'DM Sans', sans-serif;
+  --ap-font-head:  'Syne', sans-serif;
+  --ap-shadow:     0 8px 32px rgba(26,26,46,.10), 0 1px 4px rgba(26,26,46,.06);
+  --ap-transition: .18s ease;
+}
+
+/* ── Page wrapper ── */
+.ap-wrapper {
+  min-height: 100vh;
+  background: var(--ap-bg);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px 64px;
+  font-family: var(--ap-font-body);
+}
+
+/* ── Card ── */
+.ap-card {
+  background: var(--ap-card);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius);
+  box-shadow: var(--ap-shadow);
+  width: 100%;
+  max-width: 540px;
+  padding: 40px 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative top stripe */
+.ap-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ap-accent) 0%, var(--ap-accent2) 100%);
+}
+
+/* ── Heading ── */
+.ap-heading {
+  font-family: var(--ap-font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ap-accent);
+  margin: 0 0 28px;
+  letter-spacing: -.3px;
+}
+
+/* ── Feedback messages ── */
+.ap-success {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ap-success);
+  background: #edf7f1;
+  border: 1px solid #a8d5bb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+}
+
+.ap-error {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ap-danger);
+  background: #fdf0ef;
+  border: 1px solid #f0b8b2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+}
+
+/* ── Form field groups ── */
+.ap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+/* ── Labels ── */
+.ap-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ap-muted);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+/* ── Shared input/select/textarea styles ── */
+.ap-input,
+.ap-select,
+.ap-textarea {
+  font-family: var(--ap-font-body);
+  font-size: 15px;
+  color: var(--ap-accent);
+  background: #faf9f7;
+  border: 1.5px solid var(--ap-border);
+  border-radius: 10px;
+  padding: 0 14px;
+  height: var(--ap-input-h);
+  outline: none;
+  transition: border-color var(--ap-transition), box-shadow var(--ap-transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ap-input::placeholder,
+.ap-textarea::placeholder {
+  color: #c0bbb5;
+}
+
+.ap-input:focus,
+.ap-select:focus,
+.ap-textarea:focus {
+  border-color: var(--ap-accent);
+  box-shadow: 0 0 0 3px rgba(26,26,46,.08);
+  background: #fff;
+}
+
+/* textarea specific */
+.ap-textarea {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* select specific */
+.ap-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237a7570' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+/* ── File input ── */
+.ap-file {
+  font-family: var(--ap-font-body);
+  font-size: 14px;
+  color: var(--ap-muted);
+  background: #faf9f7;
+  border: 1.5px dashed var(--ap-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color var(--ap-transition), background var(--ap-transition);
+}
+
+.ap-file:hover {
+  border-color: var(--ap-accent2);
+  background: #fff8f5;
+}
+
+.ap-file:focus {
+  outline: none;
+  border-color: var(--ap-accent);
+}
+
+/* ── Submit button ── */
+.ap-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--ap-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--ap-accent);
+  border: none;
+  border-radius: 10px;
+  padding: 0 28px;
+  height: 46px;
+  cursor: pointer;
+  letter-spacing: .2px;
+  transition: background var(--ap-transition), transform var(--ap-transition), box-shadow var(--ap-transition);
+  margin-top: 8px;
+  width: 100%;
+}
+
+.ap-submit:hover {
+  background: #2e2e50;
+  box-shadow: 0 4px 16px rgba(26,26,46,.18);
+}
+
+.ap-submit:active {
+  transform: scale(0.98);
+}
+
+.ap-submit:disabled {
+  background: #c0bbb5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .ap-card {
+    padding: 28px 20px 24px;
+  }
+  .ap-heading {
+    font-size: 19px;
+  }
+}

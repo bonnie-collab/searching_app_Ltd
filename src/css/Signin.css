@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── Full page centering wrapper ── */
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f1eb;
+  /* subtle warm dot pattern for depth */
+  background-image: radial-gradient(#d6cfc2 1px, transparent 1px);
+  background-size: 22px 22px;
+  padding: 24px 16px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Card container ── */
+.signin-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 420px;
+  /* layered shadow for lift */
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.08),
+    0 24px 48px rgba(0,0,0,0.06);
+  position: relative;
+  /* slide up on load */
+  animation: cardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ── Accent bar at top of card ── */
+.signin-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e8860a, #f5a623);
+  border-radius: 16px 16px 0 0;
+}
+
+/* ── Brand logo / icon area ── */
+.signin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.signin-brand-icon {
+  width: 38px;
+  height: 38px;
+  background: #e8860a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.signin-brand-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: #1a1a1a;
+  letter-spacing: 0.3px;
+}
+
+/* ── Heading ── */
+.signin-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.signin-subheading {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 32px 0;
+  font-weight: 400;
+}
+
+/* ── Status messages ── */
+.signin-status {
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.signin-status.loading {
+  background: #fff8f0;
+  color: #b86a08;
+  border: 1px solid #f5d8a8;
+}
+
+.signin-status.success {
+  background: #f0faf4;
+  color: #1a7a40;
+  border: 1px solid #a8dfc0;
+}
+
+.signin-status.error {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5b8b8;
+}
+
+/* ── Form fields ── */
+.signin-field {
+  margin-bottom: 20px;
+}
+
+.signin-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 7px;
+}
+
+.signin-input {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px solid #e0dbd2;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: #1a1a1a;
+  background: #fdfcfa;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  box-sizing: border-box;
+}
+
+/* focus ring matches the orange accent */
+.signin-input:focus {
+  border-color: #e8860a;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(232, 134, 10, 0.12);
+}
+
+/* ── Submit button ── */
+.signin-btn {
+  width: 100%;
+  padding: 13px;
+  background: #e8860a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 4px 12px rgba(232, 134, 10, 0.25);
+}
+
+.signin-btn:hover {
+  background: #cf7509;
+  box-shadow: 0 6px 18px rgba(232, 134, 10, 0.35);
+}
+
+.signin-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── Forgot password link ── */
+.signin-forgot {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #999;
+}
+
+.signin-forgot a {
+  color: #e8860a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signin-forgot a:hover {
+  text-decoration: underline;
+}
+
+/* ── Sign up prompt ── */
+.signin-signup-prompt {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #999;
+}
+
+.signin-signup-prompt a {
+  color: #1a1a1a;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid #e8860a;
+  padding-bottom: 1px;
+}
+
+.signin-signup-prompt a:hover {
+  color: #e8860a;
+}
+
+/* ── Divider line ── */
+.signin-divider {
+  border: none;
+  border-top: 1px solid #ede9e1;
+  margin: 22px 0;
+}
+
+/* ── Responsive shrink on very small screens ── */
+@media (max-width: 480px) {
+  .signin-card {
+    padding: 36px 24px;
+  }
+}

@@ -14,13 +14,18 @@ const Makepayments = () => {
 
     // console.log("The details passed from getproducts are: ",product)
     // below we specify the image base url
-    const img_url = "https://btigar.alwaysdata.net/static/images/"
+    const img_url = "https://bonnie.alwaysdata.net/static/images/"
 
     // initialize hooks to manage the state of your application
     const [number, setNumber] = useState("")
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
+
+    // auto clear message setter
+    const autoClear = (setter) => {
+        setTimeout(() => setter(""),5000);
+    };
 
     // create a function that will handle the submit action
     const handlesubmit = async (e) =>{
@@ -38,13 +43,16 @@ const Makepayments = () => {
             formdata.append("phone", number)
             formdata.append("amount", product.product_cost)
 
-            const response = await axios.post("https://btigar.alwaysdata.net/api/mpesa_payment", formdata)
+            const response = await axios.post("https://bonnie.alwaysdata.net/api/mpesa_payment", formdata)
 
             // set loading back to default
             setLoading(false)
 
             // update the success hook with the message
             setSuccess(response.data.message)
+            
+            // clear at 5s
+            autoClear(setSuccess);
         }
         catch(error){
             // if there is an error respond to error
@@ -52,6 +60,9 @@ const Makepayments = () => {
 
             // update the error hook with the error message
             setError(error.message)
+
+            // disspears after 5
+            autoClear(setError);
         }
     }
 
@@ -72,7 +83,6 @@ const Makepayments = () => {
         <div className="col-md-6 card shadow p-4">
 
 
-
             <img src={img_url + product.product_photo} alt="Product name" className='product_img'/>
 
             <div className="card-body ">
@@ -87,8 +97,8 @@ const Makepayments = () => {
                      {/* bind the loading hook */}
                     {loading && <Loader />}
 
-                    <h3 className="text-success"> {success} </h3>
-                    <h4 className="text-danger"> {error} </h4>
+                    {success && <h3 className="text-success"> {success} </h3>}
+                    {error && <h4 className="text-danger"> {error} </h4>}
 
 
                     <input type="number"

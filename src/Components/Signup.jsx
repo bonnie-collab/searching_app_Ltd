@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import "../css/Signup.css";
 
 const Signup = () => {
   // intialise the hooks
@@ -58,7 +59,7 @@ const Signup = () => {
       formdata.append("password", password);
 
       // using axios we can use  method post
-      const response = await axios.post("https://btigar.alwaysdata.net/api/signup",formdata)
+      const response = await axios.post("https://bonnie.alwaysdata.net/api/signup",formdata)
 
       // setback the loading to default
       setLoading("");
