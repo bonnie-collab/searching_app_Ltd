@@ -283,3 +283,18 @@ body {
     padding: 16px 12px !important;
   }
 }
+
+
+/* searching limited header */
+.searchingltd {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 1.5s ease-out forwards;
+}
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

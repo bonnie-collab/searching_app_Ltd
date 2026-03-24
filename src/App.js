@@ -9,14 +9,15 @@ import Test from './Components/Test';
 import ForgotPassword from './Components/Forgotpassword';
 import VerifyOTP from './Components/Verifyotp';
 import Makepayments from './Components/Makepayments';
+import Notfound from './Components/Notfound';
 
 
 function App() {
   return (
     <Router>
-         <div className="App">
+      <div className="App">
       <header className="App-header">
-        <h1>welcome to searching Limited Quality construction materials & tools. Buy new or resale.</h1>
+        <h1 className='searchingltd'>welcome to searching Limited Quality construction materials & tools. Buy new or resale.</h1>
       </header>
 
       
@@ -46,13 +47,14 @@ function App() {
         <Route path='/signin' element = {<Signin/>}/>
         <Route path='/addproducts' element = {<Addproducts/>}/>
         <Route path='/forgotpassword' element = {<ForgotPassword/>}/>
-          <Route path='/makepayments' element = {<Makepayments/>} />
-        <Route path='/verifyotp' element = {<VerifyOTP/>}/>
+        <Route path='/makepayments' element = {<Makepayments/>} />
+        <Route path='/verify-otp' element = {<VerifyOTP/>}/>
+        <Route path='*' element = {<Notfound/>}/>
         <Route path='/test' element = {<Test/>}/>
       </Routes>
     </div>
     </Router>
- 
+
   );
 }
 

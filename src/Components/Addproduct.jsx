@@ -9,7 +9,7 @@ const Addproducts = () => {
   const [product_description, setProductDescription] = useState("");
   const [product_cost, setProductCost] = useState("");
   const [product_photo, setProductPhoto] = useState("");
-  const [category, setCategory] = useState("power_tools");
+  const [product_category, setProductCategory] = useState("power_tools");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -25,17 +25,18 @@ const Addproducts = () => {
       formdata.append("product_description", product_description);
       formdata.append("product_cost", product_cost);
       formdata.append("product_photo", product_photo);
-      formdata.append("category", category);
+      formdata.append("product_category", product_category);
 
       const response = await axios.post("https://bonnie.alwaysdata.net/api/add_product", formdata);
 
       setLoading(false);
       setSuccess(response.data.message);
+
       setProductName("");
       setProductDescription("");
       setProductCost("");
       setProductPhoto("");
-      setCategory("power_tools");
+      setProductCategory("power_tools");
       fileInputRef.current.value = "";
 
       setTimeout(() => setSuccess(""), 5000);
@@ -98,8 +99,8 @@ const Addproducts = () => {
             <select
               className="ap-select"
               required
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={product_category}
+              onChange={(e) => setProductCategory(e.target.value)}
             >
               <option value="">-- Select a Category --</option>
               <option value="power_tools">Power Tools</option>

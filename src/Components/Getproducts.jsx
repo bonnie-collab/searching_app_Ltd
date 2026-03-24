@@ -3,6 +3,7 @@ import Loader from './Loader';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/Products.css"; // import the external css
+import Footer from './Footer';
 
 // import the external css file that contains all styles for this component
 // the file must be in the same folder as Getproducts.jsx
@@ -42,6 +43,8 @@ const Getproducts = () => {
   // create a function to help fetch the products from you API
   const fetchProducts = async () => {
     try {
+      setLoading(true);
+
       // interact with your endpoint for fetching the request
       const response = await axios.get("https://bonnie.alwaysdata.net/product/get_products");
       // set update the product hook wit the response given from the API
@@ -62,24 +65,32 @@ const Getproducts = () => {
     fetchProducts();
   }, []);
 
-  // Filtering logic it produces the final list of products to display on screen
-  const filteredProducts = products.filter((product) => {
+// Filtering logic it produces the final list of products to display on screen
+// Filtering logic it produces the final list of products to display on screen
+const filteredProducts = products.filter((product) => {
 
-    // check if the product matches the selected category
-    // if activeCategory is "all" every product passes this check
-    const matchesCategory =
-      activeCategory === "all" ||
-      product.category === activeCategory;
+  // ✅ ADDED: function to normalize category format
+  const normalizeCategory = (value) =>
+    value?.toLowerCase().replace(/\s+/g, "_").trim();
 
-    // check if the product name or description contains the search term
-    // toLowerCase() makes the search case-insensitive
-    const matchesSearch =
-      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.product_description.toLowerCase().includes(searchTerm.toLowerCase());
+  // ✅ ADDED: normalize API category
+  const productCategory = normalizeCategory(product.product_category);
 
-    // only include the product if it passes BOTH checks
-    return matchesCategory && matchesSearch;
-  });
+  // ✅ ADDED: normalize selected category
+  const selectedCategory = normalizeCategory(activeCategory);
+
+  // check if the product matches the selected category
+  const matchesCategory =
+    selectedCategory === "all" ||
+    productCategory === selectedCategory;
+
+  // check if the product name or description contains the search term
+  const matchesSearch =
+    product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.product_description.toLowerCase().includes(searchTerm.toLowerCase());
+
+  return matchesCategory && matchesSearch;
+});
 
   // console.log(products)
   return (
@@ -166,7 +177,7 @@ const Getproducts = () => {
         ))}
 
       </div>
-
+      <Footer/> 
     </div>
   );
 };

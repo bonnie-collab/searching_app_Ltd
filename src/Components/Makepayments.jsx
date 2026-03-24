@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from './Loader';
+import Footer from './Footer';
 
 const Makepayments = () => {
 
@@ -116,7 +117,7 @@ const Makepayments = () => {
                 </form>
             </div>
         </div>
-
+        <Footer/>
     </div>
   )
 }

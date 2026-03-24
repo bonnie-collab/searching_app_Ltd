@@ -7,57 +7,70 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
   const navigate = useNavigate();
-    // function to handle otp request form submission
+
+  // function to handle otp request form submission
   const handleRequestOTP = async (e) => {
-    // prevent broswer from reloading the page
+    // prevent browser from reloading the page
     e.preventDefault();
 
     // loading message for otp processing
     setLoading("Sending OTP to your number...");
 
-    // clear any error before new request begins
+    // clear any previous error or success before new request begins
     setError("");
-    // sucess message
     setSuccess("");
 
     try {
-        //  crate a formdata object
+      // create a formdata object
       const formdata = new FormData();
 
-        //  append the phone entered to the form data
+      // append the phone entered to the form data
       formdata.append("phone", phone);
 
-        // send a post request to the backend point request for otp
+      // send a post request to the backend endpoint to request otp
       const response = await axios.post(
         "https://bonnie.alwaysdata.net/api/request-otp",
         formdata
       );
-        //  loading message
+
+      // debug: log full response to browser console to see exact values
+      console.log("Full response:", response);
+      console.log("Status:", response.status);
+      console.log("Data:", response.data);
+
+      // clear loading message after response is received
       setLoading("");
 
-      if (response.data === 200) {
+      // ✅ Fix: removed the if/else check entirely
+      // if axios reaches this line it means request was successful
+      // axios automatically throws an error for 4xx and 5xx responses
+      // so if we are here the otp was sent successfully no need to check status
 
-        setSuccess(response.data.message); 
-        
-        setSuccess("OTP sent successfully! Redirecting...");
-        // Store phone in sessionStorage so VerifyOTP page can use it
-        sessionStorage.setItem("reset_phone", phone);
+      // show success message to the user
+      setSuccess("OTP sent successfully! Redirecting...");
 
-        // redirect user to the otp verification page (1.5sec)
-        setTimeout(() => {
-          navigate("/verify-otp");
-        }, 1500);
-      } else {
-        //  if did not confrim success show error message
-        setError(response.data.message || "Could not send OTP. Check your number.");
-      }
+      // store phone in sessionStorage so VerifyOTP page can use it
+      sessionStorage.setItem("reset_phone", phone);
+
+      // clear success message after 3 seconds
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+
+      // ✅ redirect to verify-otp page after 3 seconds
+      setTimeout(() => {
+        navigate("/verify-otp");
+      }, 3000);
+
     } catch (err) {
-
-    //  clear loading message
+      // clear loading message on error
       setLoading("");
-    //   error asking user to try again
+
+      // log the error to console for debugging
+      console.log("Error:", err);
+
+      // show error message from backend or generic fallback message
       setError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
@@ -71,7 +84,7 @@ const ForgotPassword = () => {
           <h2 className="text-warning">Forgot Password</h2>
           <p className="text-muted mb-0">
             Enter your registered phone number. We'll send you a one-time
-            password (OTP) to reset your account. [COMING SOON]
+            password (OTP) to reset your account.
           </p>
         </div>
 
@@ -82,7 +95,10 @@ const ForgotPassword = () => {
             {loading}
           </div>
         )}
+
+        {/* success alert disappears after 3s then redirect happens */}
         {success && <div className="alert alert-success py-2">{success}</div>}
+
         {error && <div className="alert alert-danger py-2">{error}</div>}
 
         {/* Form */}
@@ -92,7 +108,6 @@ const ForgotPassword = () => {
             <span className="input-group-text">
               <i className="bi bi-phone"></i> 📱
             </span>
-
             <input
               type="tel"
               placeholder="e.g. +254712345678"
@@ -104,12 +119,12 @@ const ForgotPassword = () => {
               title="Enter a valid phone number"
             />
           </div>
-
           <button
             type="submit"
-            className="btn btn-warning"
+            className="btn btn-warning w-100"
             disabled={!!loading}
           >
+            {/* show sending text while loading otherwise show request otp */}
             {loading ? "Sending..." : "Request OTP"}
           </button>
         </form>
@@ -120,6 +135,7 @@ const ForgotPassword = () => {
             ← Back to Sign In
           </Link>
         </div>
+
       </div>
     </div>
   );
