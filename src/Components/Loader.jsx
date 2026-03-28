@@ -2,13 +2,57 @@ import React from "react";
 import "../css/Loader.css"; // import the external css
 const Loader = () => {
   return (
-    <section className="loader">
-      <div className="slider" style={{ "--i": 0 }}></div>
-      <div className="slider" style={{ "--i": 1 }}></div>
-      <div className="slider" style={{ "--i": 2 }}></div>
-      <div className="slider" style={{ "--i": 3 }}></div>
-      <div className="slider" style={{ "--i": 4 }}></div>
-    </section>
+// <!-- From Uiverse.io by web3relic --> 
+<svg
+  class="pl"
+  width="128px"
+  height="128px"
+  viewBox="0 0 128 128"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle
+    class="pl__ring2"
+    cx="64"
+    cy="64"
+    r="52.5"
+    fill="none"
+    stroke="hsl(13,90%,55%)"
+    stroke-width="12"
+    transform="rotate(-90,64,64)"
+    stroke-linecap="round"
+    stroke-dasharray="329.9 329.9"
+    stroke-dashoffset="-329.3"
+  ></circle>
+
+  <circle
+    class="pl__ring4"
+    cx="64"
+    cy="64"
+    r="37.5"
+    fill="none"
+    stroke="hsl(33,90%,55%)"
+    stroke-width="9"
+    transform="rotate(-90,64,64)"
+    stroke-linecap="round"
+    stroke-dasharray="254.5 254.5"
+    stroke-dashoffset="-254"
+  ></circle>
+
+  <circle
+    class="pl__ring6"
+    cx="64"
+    cy="64"
+    r="22.5"
+    fill="none"
+    stroke="hsl(53,90%,55%)"
+    stroke-width="9"
+    transform="rotate(-90,64,64)"
+    stroke-linecap="round"
+    stroke-dasharray="204.2 204.2"
+    stroke-dashoffset="-203.9"
+  ></circle>
+</svg>
+
   );
 };
 export default Loader;

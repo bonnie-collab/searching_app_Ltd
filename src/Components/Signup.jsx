@@ -88,7 +88,7 @@ const Signup = () => {
 
   return (
 
-    <div className="container">
+    <div className="container manager">
      
      <div className="card">
         <h2>CREATE ACCOUNT</h2>

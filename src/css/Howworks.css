@@ -1,0 +1,86 @@
+/* Section background styling */
+.howworks-section {
+  background-color: #f5f5f5; /* light gray */
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/*  Section title styling */
+.howworks-title {
+  font-weight: 700;
+  font-size: 28px;
+  color: #222;
+}
+
+/* Yellow circular step indicator */
+.step-circle {
+  width: 60px;
+  height: 60px;
+  background-color: #f4b400; /* yellow */
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+
+  /*  Center number inside the circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  margin: 0 auto; /* center horizontally */
+}
+
+/* Step title styling */
+.step-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #222;
+}
+
+/*Step description styling */
+.step-text {
+  font-size: 14px;
+  color: #555;
+  max-width: 260px;
+  margin: 0 auto; /* center text */
+}
+
+/* =============================== */
+/* MOBILE RESPONSIVENESS */
+/* =============================== */
+
+/* Small devices (phones) */
+@media (max-width: 576px) {
+
+  /* Reduce title size for small screens */
+  .howworks-title {
+    font-size: 22px;
+  }
+
+  /* Smaller step circles */
+  .step-circle {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  /* Adjust title text */
+  .step-title {
+    font-size: 16px;
+  }
+
+  /* Full width text for better readability */
+  .step-text {
+    font-size: 13px;
+    max-width: 100%;
+  }
+}
+
+/* Tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+
+  /* Slightly reduce text width */
+  .step-text {
+    max-width: 220px;
+  }
+}

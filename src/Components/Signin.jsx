@@ -29,7 +29,12 @@ const Signin = () => {
     setError("")
 
     //update the loading hook with the meassage
-    setLoading("process underway")
+    setLoading("Please wait as we sign in to your account...")
+
+    // clear loading after some time
+    setTimeout(() => {
+      setLoading("");
+    }, 3000);
 
     try {
       // create a formdata for email and pasword
@@ -48,27 +53,53 @@ const Signin = () => {
       // check whether the user exists as paert of you api response from the api
       if (response.data.user) {
         // user is there details entered during sign in are currect
-        // setSuccess("log in successfully")
-        // if successful let a person redirected to another page
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("token", response.data.token);
+
+        // if yhe user exist ,update the success hook with a message
+        setSuccess("login successful")
+
+        // back to default
+        setEmail("")
+        setPassword("")
+
 
         //  how to store users to the local storage
         // localStorage.setItem("user", JSON.stringify(user));
-        setTimeout(() => {
-          setSuccess("");
-        }, 5000);
 
         navigate("/")   // home route
+
+        // delay use to seee success massega
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       }
       else {
         //  user credantials are missing enterd are incorrect
         setError("invalid email or password")
+
+        // error hide after 4sec
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
+
+        setTimeout(() => {
+          setSuccess("");
+        }, 3000);
+
     }
     catch (error) {
       // set loading back to default
       setLoading("")
+
       // update the error on the hook with as msg
-      setError("please try again")
+      setError("login in failed please try again")
+
+      // clear error message displayed
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     }
   }
 

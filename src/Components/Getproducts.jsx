@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/Products.css"; // import the external css
 import Footer from './Footer';
+import Mycarousel from './Mycarousel';
+import Categoriesfeatures from './Categoriesfeatures';
+import HeroSection from './Herosection';
+import Howworks from './Howitworks';
 
 // import the external css file that contains all styles for this component
 // the file must be in the same folder as Getproducts.jsx
@@ -69,14 +73,14 @@ const Getproducts = () => {
 // Filtering logic it produces the final list of products to display on screen
 const filteredProducts = products.filter((product) => {
 
-  // ✅ ADDED: function to normalize category format
+  // ADDED: function to normalize category format
   const normalizeCategory = (value) =>
     value?.toLowerCase().replace(/\s+/g, "_").trim();
 
-  // ✅ ADDED: normalize API category
+  //ADDED: normalize API category
   const productCategory = normalizeCategory(product.product_category);
 
-  // ✅ ADDED: normalize selected category
+  // ADDED: normalize selected category
   const selectedCategory = normalizeCategory(activeCategory);
 
   // check if the product matches the selected category
@@ -96,6 +100,9 @@ const filteredProducts = products.filter((product) => {
   return (
     // single root div wrapping everything — JSX requires exactly one root element
     <div>
+
+      {/* link to hero section */}
+      <HeroSection/>
 
       {/*NAVIGATION BAR*/}
       <div className="pnav-wrapper">
@@ -133,6 +140,10 @@ const filteredProducts = products.filter((product) => {
           ))}
         </div>
 
+        {/* exported components section */}
+        <Mycarousel/>
+        <Categoriesfeatures/>
+
       </div>
 
       {/* show loader spinner while products are being fetched */}
@@ -154,7 +165,9 @@ const filteredProducts = products.filter((product) => {
 
         {/* map the filtered products to cards on the user interface */}
         {filteredProducts.map((product) => (
+
           <div key={product.product_id} className="col-md-3 justify-content-center mb-3">
+
             <div className="card shadow">
               <img
                 src={img_url + product.product_photo}
@@ -177,6 +190,9 @@ const filteredProducts = products.filter((product) => {
         ))}
 
       </div>
+
+      {/* links connecting componets to this page */}
+      <Howworks/>
       <Footer/> 
     </div>
   );

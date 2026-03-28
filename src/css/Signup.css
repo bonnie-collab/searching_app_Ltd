@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
 
 /* ── Full page centering wrapper ── */
-.container {
+.manager {
   min-height: 100vh;
   display: flex;
   align-items: center;

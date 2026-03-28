@@ -1,50 +1,233 @@
-/* From Uiverse.io by Nawsome */
-.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
+/* From Uiverse.io by web3relic */ 
+.pl {
+  width: 8em;
+  height: 8em;
+}
+
+.pl circle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.pl__ring1 {
+  animation: ring1_ 4s 0s ease-in-out infinite;
+}
+
+.pl__ring2 {
+  animation: ring2_ 4s 0.04s ease-in-out infinite;
+}
+
+.pl__ring3 {
+  animation: ring3_ 4s 0.08s ease-in-out infinite;
+}
+
+.pl__ring4 {
+  animation: ring4_ 4s 0.12s ease-in-out infinite;
+}
+
+.pl__ring5 {
+  animation: ring5_ 4s 0.16s ease-in-out infinite;
+}
+
+.pl__ring6 {
+  animation: ring6_ 4s 0.2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes ring1_ {
+  from {
+    stroke-dashoffset: -376.237129776;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
   }
- 
-  .slider {
-    overflow: hidden;
-    background-color: white;
-    margin: 0 15px;
-    height: 80px;
-    width: 20px;
-    border-radius: 30px;
-    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.1), -15px -15px 30px #fff,
-      inset -5px -5px 10px rgba(0, 0, 255, 0.1),
-      inset 5px 5px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+
+  23% {
+    stroke-dashoffset: -94.247778;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
   }
- 
-  .slider::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    border-radius: 100%;
-    box-shadow: inset 0px 0px 0px rgba(0, 0, 0, 0.3), 0px 420px 0 400px #2697f3,
-      inset 0px 0px 0px rgba(0, 0, 0, 0.1);
-    animation: animate_2 2.5s ease-in-out infinite;
-    animation-delay: calc(-0.5s * var(--i));
+
+  46%,
+  50% {
+    stroke-dashoffset: -376.237129776;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
   }
- 
-  @keyframes animate_2 {
-    0% {
-      transform: translateY(250px);
-      filter: hue-rotate(0deg);
-    }
- 
-    50% {
-      transform: translateY(0);
-    }
- 
-    100% {
-      transform: translateY(250px);
-      filter: hue-rotate(180deg);
-    }
+
+  73% {
+    stroke-dashoffset: -94.247778;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
   }
+
+  96%,
+  to {
+    stroke-dashoffset: -376.237129776;
+    transform: rotate(4.75turn);
+  }
+}
+
+@keyframes ring2_ {
+  from {
+    stroke-dashoffset: -329.207488554;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  23% {
+    stroke-dashoffset: -82.46680575;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
+  }
+
+  46%,
+  50% {
+    stroke-dashoffset: -329.207488554;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  73% {
+    stroke-dashoffset: -82.46680575;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
+  }
+
+  96%,
+  to {
+    stroke-dashoffset: -329.207488554;
+    transform: rotate(4.75turn);
+  }
+}
+
+@keyframes ring3_ {
+  from {
+    stroke-dashoffset: -288.4484661616;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  23% {
+    stroke-dashoffset: -72.2566298;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
+  }
+
+  46%,
+  50% {
+    stroke-dashoffset: -288.4484661616;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  73% {
+    stroke-dashoffset: -72.2566298;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
+  }
+
+  96%,
+  to {
+    stroke-dashoffset: -288.4484661616;
+    transform: rotate(4.75turn);
+  }
+}
+
+@keyframes ring4_ {
+  from {
+    stroke-dashoffset: -253.9600625988;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  23% {
+    stroke-dashoffset: -63.61725015;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
+  }
+
+  46%,
+  50% {
+    stroke-dashoffset: -253.9600625988;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  73% {
+    stroke-dashoffset: -63.61725015;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
+  }
+
+  96%,
+  to {
+    stroke-dashoffset: -253.9600625988;
+    transform: rotate(4.75turn);
+  }
+}
+
+@keyframes ring5_ {
+  from {
+    stroke-dashoffset: -225.7422778656;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  23% {
+    stroke-dashoffset: -56.5486668;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
+  }
+
+  46%,
+  50% {
+    stroke-dashoffset: -225.7422778656;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  73% {
+    stroke-dashoffset: -56.5486668;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
+  }
+
+  96%,
+  to {
+    stroke-dashoffset: -225.7422778656;
+    transform: rotate(4.75turn);
+  }
+}
+
+@keyframes ring6_ {
+  from {
+    stroke-dashoffset: -203.795111962;
+    transform: rotate(-0.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  23% {
+    stroke-dashoffset: -51.05087975;
+    transform: rotate(1turn);
+    animation-timing-function: ease-out;
+  }
+
+  46%,
+  50% {
+    stroke-dashoffset: -203.795111962;
+    transform: rotate(2.25turn);
+    animation-timing-function: ease-in;
+  }
+
+  73% {
+    stroke-dashoffset: -51.05087975;
+    transform: rotate(3.5turn);
+    animation-timing-function: ease-out;
+  }
+
+  96%,
+  to {
+    stroke-dashoffset: -203.795111962;
+    transform: rotate(4.75turn);
+  }
+}
