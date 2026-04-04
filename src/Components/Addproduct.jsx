@@ -5,6 +5,7 @@ import '../css/Addproducts.css';   // ← import the stylesheet
 
 const Addproducts = () => {
 
+  // intialisation of the hooks
   const [product_name, setProductName] = useState("");
   const [product_description, setProductDescription] = useState("");
   const [product_cost, setProductCost] = useState("");
@@ -15,23 +16,32 @@ const Addproducts = () => {
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
 
+  // handdle form submit function with try and caught error
   const handlesubmit = async (e) => {
+
+    // prevent site from reloading again
     e.preventDefault();
     setLoading(true);
 
     try {
+      // crating the drtails in the formdata
       const formdata = new FormData();
+
+      // append the details in the form data
       formdata.append("product_name", product_name);
       formdata.append("product_description", product_description);
       formdata.append("product_cost", product_cost);
       formdata.append("product_photo", product_photo);
       formdata.append("product_category", product_category);
 
+      // axios connection to the backend
       const response = await axios.post("https://bonnie.alwaysdata.net/api/add_product", formdata);
 
+      // srt loading action of the form  with messages
       setLoading(false);
       setSuccess(response.data.message);
 
+      //  set the form back to default
       setProductName("");
       setProductDescription("");
       setProductCost("");
@@ -39,7 +49,9 @@ const Addproducts = () => {
       setProductCategory("power_tools");
       fileInputRef.current.value = "";
 
+      // intialisation of time out  if upload is done
       setTimeout(() => setSuccess(""), 5000);
+
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -47,11 +59,13 @@ const Addproducts = () => {
   };
 
   return (
+    // bootstrap cards
     <div className="ap-wrapper">
       <div className="ap-card">
 
         <h3 className="ap-heading">Add a product</h3>
 
+        {/* binding the success status */}
         {loading && <Loader />}
         {success && <p className="ap-success">{success}</p>}
         {error   && <p className="ap-error">{error}</p>}

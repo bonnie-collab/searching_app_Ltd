@@ -42,13 +42,15 @@ export default function HeroSection({ onAIChatClick, onLoginClick }) {
             </p>
 
             <div className="d-flex flex-wrap gap-3 mb-5">
-              <Link to="/hire" className="btn btn-warning btn-lg px-4 py-3 fw-bold">
+              <Link to="/addproducts" className="btn btn-warning btn-lg px-4 py-3 fw-bold">
                 <i className="fas fa-search me-2" />Browse Equipment
               </Link>
 
                 {/* button to list machine or add machinery for hire or resale */}
               <button onClick={onLoginClick} className="btn btn-outline-light btn-lg px-4 py-3 fw-bold border-2">
+                <Link to="/addproducts" className="no-underline" >
                 <i className="fas fa-plus me-2" />List Your Machine
+                </Link>
               </button>
 
               {/* button for ai tooggle chat assistance */}

@@ -1,4 +1,4 @@
-/* ─── Hero Background ────────────────────────────────────── */
+/*Hero Background */
 .hero-bg {
   background: linear-gradient(
       rgba(26, 60, 52, 0.92),
@@ -8,4 +8,8 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
+}
+
+.no-underline{
+  text-decoration: none;
 }

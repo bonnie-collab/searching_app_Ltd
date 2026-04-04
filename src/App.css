@@ -122,11 +122,34 @@ body {
 
 /* brand pill on the far left — optional visual anchor */
 .navlink::before {
-  content: '🛒 searching limited';
+  content: "SEARCHING LIMITED";
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding-left: 80px; /* space for bigger image */
+
+  background-image: url('/public/images/excavator.jpg'); /* your image path */
+  background-repeat: no-repeat;
+  background-size: 70px 70px; /* 👈 increased size */
+  background-position: left center;
+
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; /* slightly bigger to match */
+  color: #1a1a1a;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+/* hOVER  */
+.navlink:hover::before {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+
+.navlink {
   font-family: 'DM Serif Display', serif;
   font-size: 16px;
   color: #1a1a1a;
-  margin-right: 20px;
   white-space: nowrap;
   letter-spacing: 0.2px;
 }

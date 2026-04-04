@@ -1,4 +1,4 @@
-/* ✅ Main card */
+/*  Main card */
 .category-card {
   background: #fff;
   border-radius: 14px;
@@ -7,15 +7,16 @@
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   transition: all 0.35s ease;   /* 🔥 smoother animation */
   cursor: pointer;
+  height: 100%; /* 🔥 ensures equal height cards */
 }
 
-/* ✅ 🔥 ADVANCED HOVER EFFECT */
+/* ADVANCED HOVER EFFECT */
 .category-card:hover {
   transform: translateY(-8px) scale(1.03);  /* lift + zoom */
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);  /* deeper shadow */
 }
 
-/* ✅ Image */
+/* Image */
 .category-img {
   width: 100%;
   height: 120px;
@@ -24,7 +25,33 @@
   transition: transform 0.4s ease;
 }
 
-/* 🔥 Image zoom on hover */
+/* Image zoom on hover */
 .category-card:hover .category-img {
   transform: scale(1.08);
+}
+
+/* 🔥 MOBILE IMPROVEMENTS */
+@media (max-width: 576px) {
+  .category-img {
+    height: 100px; /* smaller images for phones */
+  }
+
+  .category-card {
+    padding: 10px; /* tighter spacing */
+  }
+
+  .category-body h6 {
+    font-size: 14px; /* reduce text size */
+  }
+
+  .category-body p {
+    font-size: 13px;
+  }
+}
+
+/* 🔥 LARGE SCREEN IMPROVEMENTS */
+@media (min-width: 1200px) {
+  .category-img {
+    height: 140px; /* bigger images for desktops */
+  }
 }

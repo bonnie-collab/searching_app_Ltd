@@ -1,44 +1,14 @@
 import React from 'react'
-import '../css/Categoriesfeatures.css'   // ✅ Import external CSS for styling
+import '../css/Categoriesfeatures.css'   //Import external CSS for styling
 
-// ✅ Sample categories data (can later be fetched from API or imported)
+// Sample categories data (can later be fetched from API or imported)
 const categories = [
-  {
-    id: 1,
-    name: "Excavators",
-    image: "/images/excavator2.jpg",
-    count: 248
-  },
-  {
-    id: 2,
-    name: "Cranes",
-    image: "/images/cranes.jpg",
-    count: 87
-  },
-  {
-    id: 3,
-    name: "Bulldozers",
-    image: "/images/bulldozer2.jpg",
-    count: 64
-  },
-  {
-    id: 4,
-    name: "Industrial Plants",
-    image: "/images/shovel.jpg",
-    count: 31
-  },
-  {
-    id: 5,
-    name: "Power Tools",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    count: 312
-  },
-  {
-    id: 6,
-    name: "Welders & Grinders",
-    image: "https://images.unsplash.com/photo-1581091215367-59ab6b1b4b3c",
-    count: 119
-  }
+  { id: 1, name: "Excavators", image: "/images/excavator2.jpg", count: 248 },
+  { id: 2, name: "Cranes", image: "/images/cranes.jpg", count: 87 },
+  { id: 3, name: "Bulldozers", image: "/images/bulldozer2.jpg", count: 64 },
+  { id: 4, name: "Industrial Plants", image: "/images/shovel.jpg", count: 31 },
+  { id: 5, name: "Power Tools", image: "/images/video1.jpg", count: 312 },
+  { id: 6, name: "Welders & Grinders", image: "/images/roller2.jpg", count: 119 }
 ];
 
 const Categoriesfeatures = () => {
@@ -57,8 +27,12 @@ const Categoriesfeatures = () => {
         {/*  Loop through categories and display each as a card */}
         {categories.map((cat) => (
           
-          // Responsive columns (6 per row on md screens, 2 per row on small)
-          <div key={cat.id} className="col-md-2 col-sm-6">
+          // 🔥 Responsive columns:
+          // col-6 → 2 per row on very small screens
+          // col-sm-4 → 3 per row on small tablets
+          // col-md-3 → 4 per row on medium screens
+          // col-lg-2 → 6 per row on large screens
+          <div key={cat.id} className="col-6 col-sm-4 col-md-3 col-lg-2">
 
             {/* Custom styled card */}
             <div className="category-card">
