@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from './Loader';
-import Footer from './Footer';
+// import Footer from './Footer';
 
 const Makepayments = () => {
 
@@ -78,7 +78,7 @@ const Makepayments = () => {
             <input type="button"
             className="btn btn-primary"
             value="<- Back"
-            onClick={() => navigate("/") } />
+            onClick={() => navigate("/getproduct2") } />
         </div>
 
         <div className="col-md-6 card shadow p-4">
@@ -101,7 +101,7 @@ const Makepayments = () => {
                     {success && <h3 className="text-success"> {success} </h3>}
                     {error && <h4 className="text-danger"> {error} </h4>}
 
-
+                    <label className='text-warning'>Enter phonenumber</label>
                     <input type="number"
                     className='form-control'
                     placeholder='Enter the Phone number 254XXXXXXX'
@@ -117,7 +117,7 @@ const Makepayments = () => {
                 </form>
             </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

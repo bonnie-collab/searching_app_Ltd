@@ -3,12 +3,12 @@ import Loader from './Loader';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/Products.css"; // import the external css
-import Footer from './Footer';
-import Mycarousel from './Mycarousel';
-import Categoriesfeatures from './Categoriesfeatures';
-import HeroSection from './Herosection';
-import Howworks from './Howitworks';
-import Navbar from './Navbar';
+import Dashnavbar from './Dashnavbar';
+// import Footer from './Footer';
+// import Mycarousel from './Mycarousel';
+// import Categoriesfeatures from './Categoriesfeatures';
+// import HeroSection from './Herosection';
+// import Howworks from './Howitworks';
 
 // import the external css file that contains all styles for this component
 // the file must be in the same folder as Getproducts.jsx
@@ -25,6 +25,7 @@ const categories = [
   { label: "Plumbing",           value: "plumbing"           },
   { label: "Electrical",         value: "electrical"         },
   { label: "Safety Gear",        value: "safety_gear"        },
+  { label: "Hire Plant & Machinery", value: "hire_plant_machinery" },
 ];
 
 const Getproducts = () => {
@@ -103,8 +104,9 @@ const filteredProducts = products.filter((product) => {
     <div>
 
       {/* link to hero section */}
-      <Navbar/>
-      <HeroSection/>
+      {/* <HeroSection/> */}
+
+      <Dashnavbar/>
 
       {/*NAVIGATION BAR*/}
       <div className="pnav-wrapper">
@@ -143,8 +145,8 @@ const filteredProducts = products.filter((product) => {
         </div>
 
         {/* exported components section */}
-        <Mycarousel/>
-        <Categoriesfeatures/>
+        {/* <Mycarousel/>
+        <Categoriesfeatures/> */}
 
       </div>
 
@@ -214,8 +216,8 @@ const filteredProducts = products.filter((product) => {
       </div>
 
       {/* links connecting componets to this page */}
-      <Howworks/>
-      <Footer/> 
+      {/* <Howworks/>
+      <Footer/>  */}
     </div>
   );
 };

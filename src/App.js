@@ -11,6 +11,9 @@ import ForgotPassword from './Components/Forgotpassword';
 import VerifyOTP from './Components/Verifyotp';
 import Makepayments from './Components/Makepayments';
 import Notfound from './Components/Notfound';
+import Getproduct2 from './Components/Getproduct2';
+import Dashnavbar from './Components/Dashnavbar';
+import Profile from './Components/Profile';
 
 
 function App() {
@@ -23,27 +26,14 @@ function App() {
 
       
 
-        {/* ── Navigation bar ── */}
+        {/* ── Navigation bar ──
         {/* nav-spacer div pushes the auth buttons (Sign In / Sign Up) to the right */}
-        <nav className='navlink'>
-
-          {/* main navigation links on the left */}
-          <Link to="/"            className='btn btn-sm m-1'>🏠 Home</Link>
-          <Link to="/addproducts" className='btn btn-sm m-1'>＋ Add Products</Link>
-
-          {/* spacer pushes sign in and sign up to the far right */}
-          <div className="nav-spacer"></div>
-
-          {/* auth links styled differently — filled orange pill for sign in, outlined for sign up */}
-          <Link to="/signin" className='btn btn-sm btn-signin'>Sign In</Link>
-          <Link to="/signup" className='btn btn-sm btn-signup'>Sign Up</Link>
-
-        </nav>
 
 
       {/* different routes binnding the rendered documents */}
       <Routes>
         <Route path='/' element = {<Getproducts/>}/>
+        <Route path='/getproduct2' element= {<Getproduct2/>}/>
         <Route path='/signup' element = {<Signup/>}/>
         <Route path='/signin' element = {<Signin/>}/>
         <Route path='/addproducts' element = {<Addproducts/>}/>
@@ -52,6 +42,8 @@ function App() {
         <Route path='/verify-otp' element = {<VerifyOTP/>}/>
         <Route path='*' element = {<Notfound/>}/>
         <Route path='/test' element = {<Test/>}/>
+        <Route path='/dashnavbar' element ={<Dashnavbar/>} />
+        <Route path='/profile' element ={<Profile/>}/>
       </Routes>
     </div>
     </Router>

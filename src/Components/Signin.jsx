@@ -67,11 +67,11 @@ const Signin = () => {
         //  how to store users to the local storage
         // localStorage.setItem("user", JSON.stringify(user));
 
-        navigate("/")   // home route
+        navigate("/getproduct2")   // home route
 
         // delay use to seee success massega
         setTimeout(() => {
-          navigate("/");
+          navigate("/getproduct2");
         }, 1500);
       }
       else {
