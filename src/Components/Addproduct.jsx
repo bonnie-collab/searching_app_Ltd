@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import Loader from './Loader';
 import axios from 'axios';
 import '../css/Addproducts.css';   // ← import the stylesheet
+import { useNavigate } from 'react-router-dom';
 
 const Addproducts = () => {
 
@@ -15,6 +16,10 @@ const Addproducts = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
+
+
+  // navigation hooks
+  const navigate = useNavigate();
 
   // handdle form submit function with try and caught error
   const handlesubmit = async (e) => {
@@ -62,6 +67,13 @@ const Addproducts = () => {
     // bootstrap cards
     <div className="ap-wrapper">
       <div className="ap-card">
+
+        <div className="col-md-1">
+          <input type="button"
+          className="btn btn-primary"
+          value="<- Back"
+          onClick={() => navigate("/getproduct2") } />
+        </div>
 
         <h3 className="ap-heading">Add a product</h3>
 
@@ -123,6 +135,7 @@ const Addproducts = () => {
               <option value="plumbing">Plumbing</option>
               <option value="electrical">Electrical</option>
               <option value="safety_gear">Safety Gear</option>
+              <option value="hire_plant_machinery">Hire Plant and Machinery</option>
             </select>
           </div>
 

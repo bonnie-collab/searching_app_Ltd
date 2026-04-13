@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/Dashnavbar.css';
 
 const Dashnavbar = () => {
 
@@ -63,6 +64,13 @@ const Dashnavbar = () => {
       >
         MyShop Hire Michinery And Equipments Tools
       </h4>
+
+      <div className='okeyo'
+        style={{ cursor: "pointer", marginBottom: "5px" }}
+         onClick={() => navigate("/addproducts")}
+        >
+        ＋ Add Products
+      </div>
 
       <div className="d-flex align-items-center gap-4">
 

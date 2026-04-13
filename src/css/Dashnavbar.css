@@ -1,0 +1,35 @@
+/* Base style */
+.okeyo {
+  font-size: 16px;
+  font-weight: 600;
+  color: hwb(357 5% 9%);
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+/* Hover color */
+.okeyo:hover {
+  color: #007bff;
+}
+
+/* Underline (starts hidden from left) */
+.okeyo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #007bff;
+
+  /* KEY PART: hide it using scale */
+  transform: scaleX(0);
+  transform-origin: left; /* start from left */
+  transition: transform 0.3s ease;
+}
+
+/* On hover → slide in */
+.okeyo:hover::after {
+  transform: scaleX(1);
+}
