@@ -14,6 +14,7 @@ import Notfound from './Components/Notfound';
 import Getproduct2 from './Components/Getproduct2';
 import Dashnavbar from './Components/Dashnavbar';
 import Profile from './Components/Profile';
+import Cart from './Components/Cart';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path='/test' element = {<Test/>}/>
         <Route path='/dashnavbar' element ={<Dashnavbar/>} />
         <Route path='/profile' element ={<Profile/>}/>
+        <Route path='/cart' element ={<Cart/>}/>
       </Routes>
     </div>
     </Router>

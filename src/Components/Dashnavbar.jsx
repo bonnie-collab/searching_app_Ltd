@@ -1,63 +1,73 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // 🔥 ADDED: Link import
 import '../css/Dashnavbar.css';
 
 const Dashnavbar = () => {
 
-  const navigate = useNavigate(); // hook for navigation between pages
+  const navigate = useNavigate();
 
   // ================= STATE MANAGEMENT =================
-  const [cart, setCart] = useState([]); // holds cart items
-  const [user, setUser] = useState(null); // holds logged-in user info
-  const [profileImage, setProfileImage] = useState(null); // holds profile image
+  const [cart, setCart] = useState([]);
+  const [user, setUser] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
 
-  // controls visibility of dropdowns
-  const [showCart, setShowCart] = useState(false);
+  // ADDED FROM CODE 2
+  const [cartCount, setCartCount] = useState(0);
+
+  const [showCart, setShowCart] = useState(false); // (not used now but kept)
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  // ================= LOAD DATA ON COMPONENT MOUNT =================
+  // ================= LOAD DATA =================
   useEffect(() => {
 
-    // load cart
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
+    // ================= CART LOGIC =================
+    // 🔥 UPDATED: now using apexCart (same as your product page)
+    const updateCart = () => {
+      const savedCart = JSON.parse(localStorage.getItem("apexCart")) || [];
+      setCart(savedCart);
 
-    // load user
+      // 🔥 UPDATED: total quantity count instead of length
+      const totalItems = savedCart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(totalItems);
+    };
+
+    updateCart();
+
+    // ================= USER =================
     const savedUser = JSON.parse(localStorage.getItem("user"));
     setUser(savedUser);
 
-    // load profile image
+    // ================= PROFILE IMAGE =================
     const savedImage = localStorage.getItem("profileImage");
     if (savedImage) {
       setProfileImage(savedImage);
     }
 
-    // ================= REAL-TIME UPDATE (IMPORTANT) =================
-    // listens when profile image changes in another component (Profile page)
+    // ================= REAL-TIME UPDATES =================
     const handleStorageChange = () => {
+      updateCart(); // 🔥 keeps navbar in sync
       const updatedImage = localStorage.getItem("profileImage");
       setProfileImage(updatedImage);
     };
 
     window.addEventListener("storage", handleStorageChange);
 
-    // cleanup
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
 
   }, []);
 
-  // ================= LOGOUT FUNCTION =================
+  // ================= LOGOUT =================
   const handleLogout = () => {
-    localStorage.removeItem("user"); // remove user session
-    navigate("/"); // redirect to homepage
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   return (
     <div className="d-flex justify-content-between align-items-center px-4 py-3 bg-dark text-white">
 
-      {/* ================= LOGO / TITLE ================= */}
+      {/* ================= LOGO ================= */}
       <h4 
         style={{ cursor: "pointer" }} 
         onClick={() => navigate("/")}
@@ -67,58 +77,59 @@ const Dashnavbar = () => {
 
       <div className='okeyo'
         style={{ cursor: "pointer", marginBottom: "5px" }}
-         onClick={() => navigate("/addproducts")}
-        >
+        onClick={() => navigate("/addproducts")}
+      >
         ＋ Add Products
       </div>
 
       <div className="d-flex align-items-center gap-4">
 
-        {/* ================= CART SECTION ================= */}
+        {/* ================= CART ================= */}
         <div style={{ position: "relative" }}>
           
-          <span 
-            style={{ cursor: "pointer" }} 
-            onClick={() => setShowCart(!showCart)}
+          {/* 🔥 REPLACED: span → Link navigation to /cart */}
+          <Link 
+            to="/cart" 
+            style={{ 
+              cursor: "pointer", 
+              textDecoration: "none", 
+              color: "white",
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px"
+            }}
           >
-            🛒 Cart ({cart.length})
-          </span>
+            {/* 🔥 ADDED: cart icon */}
+            <span style={{ fontSize: "18px" }}>🛒</span>
 
-          {showCart && (
-            <div style={{
-              position: "absolute", // card stylings
-              top: "30px",
-              right: "0",
-              background: "white",
-              color: "black",
-              padding: "10px",
-              width: "250px",
-              borderRadius: "5px"
-            }}>
-              
-              <h6>Cart Items</h6>
+            {/* 🔥 ADDED: cart label */}
+            <span>Cart</span>
 
-              {cart.length === 0 && <p>No items in cart</p>}
+            {/* 🔥 ADDED: badge count */}
+            {cartCount > 0 && (
+              <span style={{
+                position: "absolute",
+                top: "-8px",
+                right: "-10px",
+                background: "red",
+                color: "white",
+                borderRadius: "50%",
+                padding: "2px 6px",
+                fontSize: "12px",
+                fontWeight: "bold"
+              }}>
+                {cartCount}
+              </span>
+            )}
+          </Link>
 
-              {cart.map((item) => (
-                <div 
-                  key={item.product_id}
-                  style={{ cursor: "pointer", marginBottom: "5px" }}
-                  onClick={() => navigate("/product-details", { state: { product: item } })}
-                >
-                  {item.product_name} (x{item.quantity})
-                </div>
-              ))}
-
-            </div>
-          )}
         </div>
         {/* ================= END CART ================= */}
 
-        {/* ================= USER SECTION ================= */}
+        {/* ================= USER ================= */}
         <div style={{ position: "relative" }}>
           
-          {/* UPDATED USER DISPLAY WITH PROFILE IMAGE */}
           <span
             style={{ 
               cursor: "pointer", 
@@ -128,7 +139,6 @@ const Dashnavbar = () => {
             }}
             onClick={() => setShowUserMenu(!showUserMenu)}
           >
-            {/* show image if available, else icon */}
             {profileImage ? (
               <img
                 src={profileImage}
@@ -144,11 +154,9 @@ const Dashnavbar = () => {
               "👤"
             )}
 
-            {/* show user name */}
             {user?.name || "Guest"}
           </span>
 
-          {/* dropdown menu */}
           {showUserMenu && (
             <div style={{
               position: "absolute",

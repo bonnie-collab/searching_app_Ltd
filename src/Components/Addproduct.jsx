@@ -72,7 +72,7 @@ const Addproducts = () => {
           <input type="button"
           className="btn btn-primary"
           value="<- Back"
-          onClick={() => navigate("/getproduct2") } />
+          onClick={() => navigate("/getproduct") } />
         </div>
 
         <h3 className="ap-heading">Add a product</h3>

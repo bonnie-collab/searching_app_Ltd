@@ -4,19 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/Products.css"; // import the external css
 import Dashnavbar from './Dashnavbar';
-// import Footer from './Footer';
-// import Mycarousel from './Mycarousel';
-// import Categoriesfeatures from './Categoriesfeatures';
-// import HeroSection from './Herosection';
-// import Howworks from './Howitworks';
-
-// import the external css file that contains all styles for this component
-// the file must be in the same folder as Getproducts.jsx
-// import './Getproducts.css';
+import Footer from './Footer';
 
 // define all product categories used in the navigation bar
-// label is what the user sees, value is what we match against product.category in the data
-// "all" is a special value that means show every product regardless of category
 const categories = [
   { label: "All",                value: "all"                },
   { label: "Power Tools",        value: "power_tools"        },
@@ -28,94 +18,139 @@ const categories = [
   { label: "Hire Plant & Machinery", value: "hire_plant_machinery" },
 ];
 
+// initialize the hook to help manage state of the application
 const Getproducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  // activeCategory tracks which nav pill is currently selected
-  // defaults to "all" so all products show on first load
+  // activeCategory tracks selected category
   const [activeCategory, setActiveCategory] = useState("all");
 
-  // searchTerm tracks what the user types in the search box
+  // searchTerm tracks search input
   const [searchTerm, setSearchTerm] = useState("");
 
-  // declare the navigate hook
+  // declare navigate hook
   const navigate = useNavigate();
 
-  // insert of the image url to display image
+  // ================= 🔥 MODIFIED ADD TO CART FUNCTION =================
+  // (Updated using Code 2 logic + fixes)
+  const addToCart = (product) => {
+
+    // 🔥 ADDED: ensure correct product id field
+    const productId = product.product_id;
+
+    // 🔥 UPDATED: use ONE storage key (apexCart) instead of searchcart
+    const existingCart = JSON.parse(localStorage.getItem('apexCart') || '[]');
+
+    // 🔥 ADDED: check if item already exists in cart
+    const existingItemIndex = existingCart.findIndex(
+      item => item.product_id === productId
+    );
+
+    let updatedCart;
+
+    if (existingItemIndex !== -1) {
+      // 🔥 ADDED: increase quantity instead of duplicating product
+      updatedCart = existingCart.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      // 🔥 ADDED: create new item if not existing
+      const newItem = {
+        ...product,
+        product_id: productId,
+        quantity: 1,
+        addedAt: new Date().toISOString()
+      };
+
+      updatedCart = [...existingCart, newItem];
+    }
+
+    // 🔥 UPDATED: save only to apexCart
+    localStorage.setItem('apexCart', JSON.stringify(updatedCart));
+
+    // 🔥 KEEP: trigger navbar update
+    window.dispatchEvent(new Event('storage'));
+
+    // 🔥 UPDATED: fix selector using correct product_id
+    const button = document.querySelector(
+      `[data-product-id="${product.product_id}"] .add-to-cart-btn`
+    );
+
+    // show success feedback
+    if (button) {
+      const originalText = button.innerHTML;
+      button.innerHTML = '✓ Added!';
+      button.style.background = '#2ed573';
+
+      setTimeout(() => {
+        button.innerHTML = originalText;
+        button.style.background = '';
+      }, 1500);
+    }
+  };
+
+  // insert image url
   const img_url = "https://bonnie.alwaysdata.net/static/images/";
 
-  // create a function to help fetch the products from you API
+  // fetch products from API
   const fetchProducts = async () => {
     try {
       setLoading(true);
 
-      // interact with your endpoint for fetching the request
       const response = await axios.get("https://bonnie.alwaysdata.net/product/get_products");
-      // set update the product hook wit the response given from the API
+
       setProducts(response.data);
-      // set the loading hook back to default
       setLoading(false);
     }
     catch (error) {
-      // set the loading back to default
       setLoading(false);
-      // update for the error hook with a message
       setError(error.message);
     }
   };
 
-  // use the useeffect this hook  enables that use automatically re-renders features incase of any changes
+  // auto run on load
   useEffect(() => {
     fetchProducts();
   }, []);
 
-// Filtering logic it produces the final list of products to display on screen
-// Filtering logic it produces the final list of products to display on screen
-const filteredProducts = products.filter((product) => {
+  // ================= FILTERING LOGIC =================
+  const filteredProducts = products.filter((product) => {
 
-  // ADDED: function to normalize category format
-  const normalizeCategory = (value) =>
-    value?.toLowerCase().replace(/\s+/g, "_").trim();
+    // normalize category format
+    const normalizeCategory = (value) =>
+      value?.toLowerCase().replace(/\s+/g, "_").trim();
 
-  //ADDED: normalize API category
-  const productCategory = normalizeCategory(product.product_category);
+    const productCategory = normalizeCategory(product.product_category);
+    const selectedCategory = normalizeCategory(activeCategory);
 
-  // ADDED: normalize selected category
-  const selectedCategory = normalizeCategory(activeCategory);
+    const matchesCategory =
+      selectedCategory === "all" ||
+      productCategory === selectedCategory;
 
-  // check if the product matches the selected category
-  const matchesCategory =
-    selectedCategory === "all" ||
-    productCategory === selectedCategory;
+    const matchesSearch =
+      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.product_description.toLowerCase().includes(searchTerm.toLowerCase());
 
-  // check if the product name or description contains the search term
-  const matchesSearch =
-    product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.product_description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
-  return matchesCategory && matchesSearch;
-});
-
-  // console.log(products)
   return (
-    // single root div wrapping everything — JSX requires exactly one root element
     <div>
 
-      {/* link to hero section */}
-      {/* <HeroSection/> */}
-
+      {/* navbar */}
       <Dashnavbar/>
 
-      {/*NAVIGATION BAR*/}
+      {/* NAVIGATION BAR */}
       <div className="pnav-wrapper">
 
-        {/* top row: page heading + search input */}
         <div className="pnav-top">
           <h2 className="pnav-heading">Our Products</h2>
 
-          {/* search bar — filters products in real time as the user types */}
+          {/* search input */}
           <div className="pnav-search-form">
             <span>🔍</span>
             <input
@@ -123,20 +158,17 @@ const filteredProducts = products.filter((product) => {
               className="pnav-search-input"
               placeholder="Search products..."
               value={searchTerm}
-              // update searchTerm state on every keystroke to trigger live filtering
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
-        {/* category pills — clicking a pill sets activeCategory which re-filters the list */}
+        {/* category pills */}
         <div className="pnav-pills">
           {categories.map((cat) => (
             <button
               key={cat.value}
-              // add "active" class to the currently selected category pill
               className={`pnav-pill ${activeCategory === cat.value ? "active" : ""}`}
-              // update activeCategory when the user clicks this pill
               onClick={() => setActiveCategory(cat.value)}
             >
               {cat.label}
@@ -144,22 +176,18 @@ const filteredProducts = products.filter((product) => {
           ))}
         </div>
 
-        {/* exported components section */}
-        {/* <Mycarousel/>
-        <Categoriesfeatures/> */}
-
       </div>
 
-      {/* show loader spinner while products are being fetched */}
+      {/* loader */}
       {loading && <Loader />}
 
-      {/* show error message if the API request failed */}
+      {/* error */}
       <h4 className='text-danger'>{error}</h4>
 
-      {/* PRODUCT CARDS GRID */}
+      {/* PRODUCT GRID */}
       <div className='row px-3'>
 
-        {/* show a friendly message when no products match the current filter or search */}
+        {/* empty state */}
         {filteredProducts.length === 0 && !loading && (
           <div className="pnav-empty">
             No products found for <strong>{categories.find(c => c.value === activeCategory)?.label}</strong>
@@ -167,15 +195,12 @@ const filteredProducts = products.filter((product) => {
           </div>
         )}
 
-        {/* map the filtered products to cards on the user interface */}
-        {/* map the filtered products to cards on the user interface */}
+        {/* products */}
         {filteredProducts.map((product) => (
           <div key={product.product_id} className="col-md-2 col-6 mb-3">
-            {/* smaller column for tighter grid like the image */}
             
             <div className="product-card">
               
-              {/* product image with fixed height for uniformity */}
               <img
                 src={img_url + product.product_photo}
                 alt={product.product_name}
@@ -185,27 +210,34 @@ const filteredProducts = products.filter((product) => {
 
               <div className="product-info">
                 
-                {/* product title trimmed to 2 lines */}
                 <h6 className="product-title">
                   {product.product_name}
                 </h6>
 
-                {/* price */}
                 <div className="product-price">
                   KSh {product.product_cost}
                 </div>
 
-                {/* optional old price (fake discount style like image) */}
                 <div className="product-old-price">
                   KSh {Math.floor(product.product_cost * 1.5)}
                 </div>
 
-                {/* purchase button */}
                 <button
                   className="btn btn-sm btn-outline-primary w-100 mt-1"
                   onClick={() => navigate("/makepayments", { state: { product } })}
                 >
                   Buy
+                </button>
+
+                {/* 🔥 UPDATED: fixed product id binding */}
+                <button
+                  data-product-id={product.product_id}
+                  className='add-to-cart-btn'
+                  onClick={() => addToCart(product)}
+                >
+                  <span className="btn-icon">🛒</span>
+                  <span className="btn-text">Add to Cart</span>
+                  <div className="btn-glow"></div>
                 </button>
 
               </div>
@@ -215,9 +247,8 @@ const filteredProducts = products.filter((product) => {
 
       </div>
 
-      {/* links connecting componets to this page */}
-      {/* <Howworks/>
-      <Footer/>  */}
+      {/* footer */}
+      <Footer/>  
     </div>
   );
 };
