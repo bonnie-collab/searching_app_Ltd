@@ -1,35 +1,406 @@
-/* Base style */
-.okeyo {
-  font-size: 16px;
-  font-weight: 600;
-  color: hwb(357 5% 9%);
+/* ── NAVBAR CORE ── */
+.nav-glow-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.apex-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(5, 10, 15, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 2rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.apex-nav.scrolled {
+  height: 60px;
+  background: rgba(5, 10, 15, 0.98);
+}
+
+/* ── LOGO ── */
+.apex-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  color: #00d4aa;
+  text-decoration: none;
+}
+
+.logo-symbol {
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  color: #00d4aa;
+}
+
+.logo-gadgets {
+  color: #f5a623;
+}
+
+/* ── NAV LINKS ── */
+.apex-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
+
+.apex-nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #7a9bb5;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.apex-nav-links a:hover {
+  color: #00d4aa;
+  background: rgba(0, 212, 170, 0.07);
+}
+
+/* ACTIVE LINK */
+.apex-nav-links a.nav-active {
+  color: #00d4aa;
+}
+
+/* ── CART BADGE ── */
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4757;
+  color: #fff;
+  font-size: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+}
+
+/* ── USER PROFILE ── */
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #00d4aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.default-avatar {
+  font-weight: bold;
+  color: #050a0f;
+}
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  background: #00d4aa;
+}
+
+/* ── MOBILE MENU ── */
+.mobile-menu-overlay {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: rgba(5, 10, 15, 0.98);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  list-style: none;
+  padding: 1rem;
+}
+
+.mobile-menu li a {
+  display: block;
+  padding: 0.75rem;
+  color: #7a9bb5;
+  text-decoration: none;
+}
+
+.mobile-menu li a:hover {
+  color: #00d4aa;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .desktop-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+
+
+
+/* added new cord for code notification */
+
+/* Position parent properly */
+.apex-nav-links li {
   position: relative;
-  display: inline-block;
-  transition: color 0.3s ease;
 }
 
-/* Hover color */
-.okeyo:hover {
-  color: #007bff;
+/* Cart count badge */
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 7px;
+  border-radius: 50%;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+  animation: pulse 1s infinite;
 }
 
-/* Underline (starts hidden from left) */
-.okeyo::after {
+/* Optional glow animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.9);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+}
+
+/* logo styling */
+  .logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Make the whole logo interactive */
+.apex-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Image styling */
+.logo-image {
+  height: 40px;
+  transition: all 0.4s ease;
+}
+
+/* Text styling */
+.logo-text,
+.logo-gadgets {
+  transition: all 0.4s ease;
+}
+
+/*  HOVER EFFECT (glow + flex/scale) */
+.apex-nav-logo:hover {
+  transform: scale(1.05); /* slight flex */
+}
+
+/* Glow + movement for image */
+.apex-nav-logo:hover .logo-image {
+  transform: scale(1.15) rotate(-3deg);
+  filter: drop-shadow(0 0 10px #00d4aa)
+  drop-shadow(0 0 20px #00d4aa);
+}
+
+/* Glow text */
+.apex-nav-logo:hover .logo-text {
+  color: #00d4aa;
+  text-shadow: 0 0 10px #00d4aa,
+  0 0 20px #00d4aa;
+}
+
+.apex-nav-logo:hover .logo-gadgets {
+  color: #f5a623;
+  text-shadow: 0 0 10px #f5a623,
+  0 0 20px #f5a623;
+}
+
+/*  Pulse glow behind logo */
+.logo-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 212, 170, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.apex-nav-logo:hover .logo-pulse {
+  opacity: 1;
+  animation: logoPulse 1.5s infinite;
+}
+
+@keyframes logoPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+}
+
+.nav-text{
+  font-size: 150%;
+}
+
+
+/*navbar bar links for the dashboard page  */
+/* ── LINK GLOW + FLEX EFFECT (NEW) ── */
+
+/* Ensure positioning for effects */
+.apex-nav-links a {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover: glow + flex */
+.apex-nav-links a:hover {
+  transform: scale(1.08) translateY(-2px);
+  color: #00fff0;
+  background: rgba(0, 212, 170, 0.1);
+  box-shadow: 
+    0 0 8px rgba(0, 212, 170, 0.4),
+    0 0 16px rgba(0, 212, 170, 0.3),
+    inset 0 0 6px rgba(0, 212, 170, 0.2);
+}
+
+/* Glow pulse layer */
+.apex-nav-links a::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background-color: #007bff;
-
-  /* KEY PART: hide it using scale */
-  transform: scaleX(0);
-  transform-origin: left; /* start from left */
-  transition: transform 0.3s ease;
+  inset: 0;
+  border-radius: 8px;
+  background: radial-gradient(circle, rgba(0,212,170,0.25), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
-/* On hover → slide in */
-.okeyo:hover::after {
-  transform: scaleX(1);
+.apex-nav-links a:hover::after {
+  opacity: 1;
+}
+
+/* Icon animation */
+.apex-nav-links a:hover .nav-icon {
+  transform: scale(1.2) rotate(-5deg);
+  transition: all 0.3s ease;
+}
+
+/* Text animation */
+.apex-nav-links a:hover .nav-text {
+  letter-spacing: 0.05em;
+}
+
+/* ── ACTIVE LINK ENHANCED ── */
+.apex-nav-links a.nav-active {
+  color: #00fff0;
+  background: rgba(0, 212, 170, 0.12);
+  box-shadow: 0 0 10px rgba(0, 212, 170, 0.4);
+}
+
+/* ── UNDERLINE UPGRADE ── */
+.nav-underline {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #00d4aa, #00fff0);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.apex-nav-links a:hover .nav-underline {
+  width: 70%;
+}
+
+/* ── OPTIONAL: SMOOTH FLOAT ANIMATION ── */
+@keyframes navFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+.apex-nav-links a:hover {
+  animation: navFloat 0.6s ease-in-out;
 }

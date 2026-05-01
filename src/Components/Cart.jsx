@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Cart.css';
 
+// state the hooks here and the functions to add, remove, update quantity, clear cart, and proceed to checkout. Also include mouse tracking for interactive effects and localStorage synchronization for cart persistence across sessions and tabs.
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
@@ -48,17 +49,26 @@ const Cart = () => {
     setCart(updatedCart);
     calculateTotal(updatedCart);
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
+
+    // 🔔 ADDED: Notify other components (e.g., Navbar) to update cart count
+    window.dispatchEvent(new Event('storage'));
   };
 
   // Remove item from cart
-  const removeFromCart = (productId) => {
-    const updatedCart = cart.filter(item => item.id !== productId);
+  // 🔧 MODIFIED: Use index instead of id to avoid removing all items with same id
+  const removeFromCart = (indexToRemove) => {
+    const updatedCart = cart.filter((_, index) => index !== indexToRemove);
+
     setCart(updatedCart);
     calculateTotal(updatedCart);
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
+
+    // Trigger Navbar cart count update
+    window.dispatchEvent(new Event('storage'));
   };
 
   // Update quantity
+  // Still uses item.id — ensure your items have unique IDs if you rely on this
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
     
@@ -68,6 +78,9 @@ const Cart = () => {
     setCart(updatedCart);
     calculateTotal(updatedCart);
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
+
+    // Keep navbar in sync
+    window.dispatchEvent(new Event('storage'));
   };
 
   // Clear cart
@@ -75,11 +88,14 @@ const Cart = () => {
     setCart([]);
     setTotal(0);
     localStorage.removeItem('apexCart');
+
+    // Update navbar after clearing cart
+    window.dispatchEvent(new Event('storage'));
   };
 
   // Proceed to checkout
   const proceedToCheckout = () => {
-    navigate('/checkout', { state: { cart, total } });
+    navigate('/makepayments', { state: { cart, total } });
   };
 
   return (
@@ -108,7 +124,7 @@ const Cart = () => {
           <p>Add some amazing gadgets to get started!</p>
           <button 
             className="continue-shopping-btn"
-            onClick={() => navigate('/getproducts')}
+            onClick={() => navigate('/getproduct2')}
           >
             <span className="btn-icon">🛍️</span>
             Continue Shopping
@@ -117,11 +133,17 @@ const Cart = () => {
       ) : (
         <div className="cart-content">
           <div className="cart-items">
+
+            {/* using index for safe removal */}
             {cart.map((item, index) => (
-              <div key={item.id} className="cart-item" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div 
+                key={index} /*was item.id */
+                className="cart-item" 
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="item-image">
                   <img 
-                    src={`https://cedric22a.alwaysdata.net/static/images/${item.product_photo}`}
+                    src={`https://bonnie.alwaysdata.net/static/images/${item.product_photo}`}
                     alt={item.product_name}
                   />
                 </div>
@@ -158,7 +180,7 @@ const Cart = () => {
                     
                     <button 
                       className="remove-btn"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(index)} /* 🔧 MODIFIED */
                     >
                       <span className="btn-icon">🗑️</span>
                       Remove
@@ -167,6 +189,7 @@ const Cart = () => {
                 </div>
               </div>
             ))}
+
           </div>
           
           <div className="cart-summary">

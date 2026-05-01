@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import Loader from './Loader';
 import axios from 'axios';
-import '../css/Addproducts.css';   // ← import the stylesheet
+import '../css/Addproducts.css';  
 import { useNavigate } from 'react-router-dom';
 
 const Addproducts = () => {
@@ -72,7 +72,7 @@ const Addproducts = () => {
           <input type="button"
           className="btn btn-primary"
           value="<- Back"
-          onClick={() => navigate("/getproduct") } />
+          onClick={() => navigate("/getproduct2") } />
         </div>
 
         <h3 className="ap-heading">Add a product</h3>

@@ -15,6 +15,7 @@ import Getproduct2 from './Components/Getproduct2';
 import Dashnavbar from './Components/Dashnavbar';
 import Profile from './Components/Profile';
 import Cart from './Components/Cart';
+import Checkout from "./Components/Checkout";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path='/dashnavbar' element ={<Dashnavbar/>} />
         <Route path='/profile' element ={<Profile/>}/>
         <Route path='/cart' element ={<Cart/>}/>
+        <Route path='/checkout' element ={<Checkout/>}/>    
       </Routes>
     </div>
     </Router>

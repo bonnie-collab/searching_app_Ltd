@@ -1,196 +1,218 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // 🔥 ADDED: Link import
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../css/Dashnavbar.css';
 
-const Dashnavbar = () => {
-
-  const navigate = useNavigate();
-
-  // ================= STATE MANAGEMENT =================
-  const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
-
-  // ADDED FROM CODE 2
+const Navbar = () => {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path ? 'nav-active' : '';
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cartCount, setCartCount] = useState(0);
+  const [profileImage, setProfileImage] = useState('');
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-  const [showCart, setShowCart] = useState(false); // (not used now but kept)
-  const [showUserMenu, setShowUserMenu] = useState(false);
-
-  // ================= LOAD DATA =================
   useEffect(() => {
-
-    // ================= CART LOGIC =================
-    // 🔥 UPDATED: now using apexCart (same as your product page)
-    const updateCart = () => {
-      const savedCart = JSON.parse(localStorage.getItem("apexCart")) || [];
-      setCart(savedCart);
-
-      // 🔥 UPDATED: total quantity count instead of length
-      const totalItems = savedCart.reduce((sum, item) => sum + item.quantity, 0);
-      setCartCount(totalItems);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
     };
 
-    updateCart();
-
-    // ================= USER =================
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(savedUser);
-
-    // ================= PROFILE IMAGE =================
-    const savedImage = localStorage.getItem("profileImage");
-    if (savedImage) {
-      setProfileImage(savedImage);
-    }
-
-    // ================= REAL-TIME UPDATES =================
-    const handleStorageChange = () => {
-      updateCart(); // 🔥 keeps navbar in sync
-      const updatedImage = localStorage.getItem("profileImage");
-      setProfileImage(updatedImage);
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    window.addEventListener("storage", handleStorageChange);
+    // Update cart count from localStorage
+    const updateCartCount = () => {
+      const savedCart = localStorage.getItem('apexCart');
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        setCartCount(parsedCart.length);
+      } else {
+        setCartCount(0); // 🔥 NEW: reset count when cart is empty
+      }
+    };
 
+    // Update profile image from localStorage
+    const updateProfileImage = () => {
+      const savedImage = localStorage.getItem('apexProfileImage');
+      if (savedImage) {
+        setProfileImage(savedImage);
+      }
+    };
+
+    updateCartCount();
+    updateProfileImage();
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // storage only works across tabs, so we add custom event too
+    window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cartUpdated', updateCartCount);
+
+    window.addEventListener('storage', updateProfileImage);
+    
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
 
+      //  remove both listeners
+      window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('cartUpdated', updateCartCount);
+
+      window.removeEventListener('storage', updateProfileImage);
+    };
   }, []);
 
-  // ================= LOGOUT =================
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
-  };
-
   return (
-    <div className="d-flex justify-content-between align-items-center px-4 py-3 bg-dark text-white">
-
-      {/* ================= LOGO ================= */}
-      <h4 
-        style={{ cursor: "pointer" }} 
-        onClick={() => navigate("/")}
-      >
-        MyShop Hire Michinery And Equipments Tools
-      </h4>
-
-      <div className='okeyo'
-        style={{ cursor: "pointer", marginBottom: "5px" }}
-        onClick={() => navigate("/addproducts")}
-      >
-        ＋ Add Products
-      </div>
-
-      <div className="d-flex align-items-center gap-4">
-
-        {/* ================= CART ================= */}
-        <div style={{ position: "relative" }}>
-          
-          {/* 🔥 REPLACED: span → Link navigation to /cart */}
-          <Link 
-            to="/cart" 
-            style={{ 
-              cursor: "pointer", 
-              textDecoration: "none", 
-              color: "white",
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px"
-            }}
-          >
-            {/* 🔥 ADDED: cart icon */}
-            <span style={{ fontSize: "18px" }}>🛒</span>
-
-            {/* 🔥 ADDED: cart label */}
-            <span>Cart</span>
-
-            {/* 🔥 ADDED: badge count */}
-            {cartCount > 0 && (
-              <span style={{
-                position: "absolute",
-                top: "-8px",
-                right: "-10px",
-                background: "red",
-                color: "white",
-                borderRadius: "50%",
-                padding: "2px 6px",
-                fontSize: "12px",
-                fontWeight: "bold"
-              }}>
-                {cartCount}
-              </span>
-            )}
+    <>
+      {/* Animated Background Effect */}
+      <div 
+        className="nav-glow-effect"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0, 212, 170, 0.1) 0%, transparent 50%)`
+        }}
+      />
+      
+        <nav className={`apex-nav ${scrolled ? 'scrolled' : ''}`}>
+          <Link to="/getproducts" className="apex-nav-logo">
+            <img 
+              src="/images/excavator.jpg"
+              alt="Excavator" 
+              className="logo-image" 
+            />
+            <span className="logo-text">SEARCHING</span>
+            <span className="logo-gadgets">LIMITED</span>
+            <div className="logo-pulse"></div>
           </Link>
 
-        </div>
-        {/* ================= END CART ================= */}
-
-        {/* ================= USER ================= */}
-        <div style={{ position: "relative" }}>
           
-          <span
-            style={{ 
-              cursor: "pointer", 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "5px" 
-            }}
-            onClick={() => setShowUserMenu(!showUserMenu)}
-          >
-            {profileImage ? (
-              <img
-                src={profileImage}
-                alt="profile"
-                style={{
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                  objectFit: "cover"
-                }}
-              />
-            ) : (
-              "👤"
-            )}
+        {/* Desktop links */}
+        <ul className="apex-nav-links desktop-links">
+          {/* <li>
+            <Link to="/" className={isActive('/')}>
+              <span className="nav-icon">🏠</span>
+              <span className="nav-text">Home</span>
+              <div className="nav-underline"></div>
+            </Link>
+          </li> */}
+          <li>
+            <Link to="/getproduct2" className={isActive('/getproduct2')}>
+              <span className="nav-icon">🛍️</span>
+              <span className="nav-text">Shop</span>
+              <div className="nav-underline"></div>
+            </Link>
+          </li>
+          <li>
+            <Link to="/addproducts" className={isActive('/addproducts')}>
+              <span className="nav-icon">➕</span>
+              <span className="nav-text">Add Product</span>
+              <div className="nav-underline"></div>
+            </Link>
+          </li>
+          <li>
+            <Link to="/cart" className={isActive('/cart')}>
+              <span className="nav-icon">🛒</span>
+              <span className="nav-text">Cart</span>
 
-            {user?.name || "Guest"}
-          </span>
+              {/* 🔥 NEW: cart count badge */}
+              {cartCount > 0 && (
+                <span className="cart-count">{cartCount}</span>
+              )}
 
-          {showUserMenu && (
-            <div style={{
-              position: "absolute",
-              top: "30px",
-              right: "0",
-              background: "white",
-              color: "black",
-              padding: "10px",
-              borderRadius: "5px",
-              width: "150px"
-            }}>
-              
-              <div 
-                style={{ cursor: "pointer", marginBottom: "5px" }}
-                onClick={() => navigate("/profile")}
-              >
-                Profile
-              </div>
+              <div className="nav-underline"></div>
+            </Link>
+          </li>
 
-              <div 
-                style={{ cursor: "pointer", color: "red" }}
-                onClick={handleLogout}
-              >
-                Logout
-              </div>
-
-            </div>
+          {!user ? (
+            <>
+              <li>
+                <Link to="/signin" className={isActive('/signin')}>
+                  <span className="nav-icon">🔐</span>
+                  <span className="nav-text">Sign In</span>
+                  <div className="nav-underline"></div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/signup" className={`apex-nav-cta ${isActive('/signup')}`}>
+                  <span className="nav-icon">🚀</span>
+                  <span className="nav-text">Sign Up</span>
+                  <div className="cta-glow"></div>
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="user-profile">
+              <Link to="/profile" className="profile-link">
+                <div className="user-avatar">
+                  {profileImage ? (
+                    <img 
+                      src={profileImage} 
+                      alt="Profile" 
+                      className="profile-avatar"
+                    />
+                  ) : (
+                    <div className="default-avatar">
+                      <span className="avatar-text">{user.username[0].toUpperCase()}</span>
+                    </div>
+                  )}
+                  <div className="avatar-glow"></div>
+                  <div className="avatar-ring"></div>
+                </div>
+                <div className="user-info">
+                  <span className="username">{user.username}</span>
+                  <span className="user-status">● Online</span>
+                </div>
+                <div className="nav-underline"></div>
+              </Link>
+            </li>
           )}
-        </div>
-        {/* ================= END USER ================= */}
+        </ul>
 
-      </div>
-    </div>
+        {/* Enhanced Hamburger button */}
+        <button
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className="bar bar-1"></span>
+          <span className="bar bar-2"></span>
+          <span className="bar bar-3"></span>
+          <div className="hamburger-glow"></div>
+        </button>
+
+        {/* Enhanced Mobile dropdown menu */}
+        <div className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`}>
+          <ul className="mobile-menu">
+            <li><Link to="/" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">🏠</span>
+              Home
+            </Link></li>
+            <li><Link to="/getproducts" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">🛍️</span>
+              Shop
+            </Link></li>
+            <li><Link to="/addproducts" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">➕</span>
+              Add Product
+            </Link></li>
+            <li><Link to="/cart" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">🛒</span>
+              Cart
+            </Link></li>
+            <li><Link to="/signin" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">🔐</span>
+              Sign In
+            </Link></li>
+            <li><Link to="/signup" onClick={() => setMenuOpen(false)}>
+              <span className="mobile-nav-icon">🚀</span>
+              Sign Up
+            </Link></li>
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 };
 
-export default Dashnavbar;
+export default Navbar;

@@ -6,16 +6,23 @@ import Loader from './Loader';
 
 const Makepayments = () => {
 
-    // destructure the details passed from the Getproducts component
-    // The useLoacation hook allows us to get/destructure the properties passed from the previous component.
-    const {product} = useLocation().state || {}
+    // ❌ OLD:
+    // const {product} = useLocation().state || {}
+
+    // ✅ NEW: get cart + total from navigation OR fallback to localStorage
+    const location = useLocation();
+    const cart = location.state?.cart || JSON.parse(localStorage.getItem('apexCart')) || [];
 
     // declare the navigate hook
     const navigate = useNavigate()
 
-    // console.log("The details passed from getproducts are: ",product)
     // below we specify the image base url
     const img_url = "https://bonnie.alwaysdata.net/static/images/"
+
+    // ✅ Calculate total dynamically (important fix)
+    const totalAmount = cart.reduce((sum, item) => {
+        return sum + (item.product_cost * item.quantity);
+    }, 0);
 
     // initialize hooks to manage the state of your application
     const [number, setNumber] = useState("")
@@ -30,47 +37,53 @@ const Makepayments = () => {
 
     // create a function that will handle the submit action
     const handlesubmit = async (e) =>{
-        // prevent the site from reloading
         e.preventDefault()
 
-        // update the loading hook
+        // ✅ VALIDATION (NEW)
+        if (cart.length === 0) {
+            setError("Your cart is empty");
+            autoClear(setError);
+            return;
+        }
+
+        if (!number.startsWith("254")) {
+            setError("Use format 2547XXXXXXXX");
+            autoClear(setError);
+            return;
+        }
+
         setLoading(true)
 
         try{
-            // create a form data object
             const formdata = new FormData()
 
             // append the data to the form data
             formdata.append("phone", number)
-            formdata.append("amount", product.product_cost)
+
+            // ❌ OLD: product.product_cost
+            // ✅ NEW: send TOTAL cart amount
+            formdata.append("amount", totalAmount)
 
             const response = await axios.post("https://bonnie.alwaysdata.net/api/mpesa_payment", formdata)
 
-            // set loading back to default
             setLoading(false)
 
-            // update the success hook with the message
             setSuccess(response.data.message)
-            
-            // clear at 5s
+
+            // ✅ OPTIONAL: clear cart after payment
+            localStorage.removeItem('apexCart');
+
             autoClear(setSuccess);
         }
         catch(error){
-            // if there is an error respond to error
             setLoading(false)
-
-            // update the error hook with the error message
             setError(error.message)
-
-            // disspears after 5
             autoClear(setError);
         }
     }
 
-
   return (
     <div className='row justify-content-center'>
-        {/* <button className='btn btn-outline-primary'> Back to Product </button> */}
 
         <h1 className="text-success">Make Payment - Lipa na M-Pesa</h1>
 
@@ -78,46 +91,67 @@ const Makepayments = () => {
             <input type="button"
             className="btn btn-primary"
             value="<- Back"
-            onClick={() => navigate("/getproduct2") } />
+            onClick={() => navigate("/cart") } /> {/* ✅ go back to cart now */}
         </div>
 
         <div className="col-md-6 card shadow p-4">
 
+            {/* ✅ HANDLE EMPTY CART SAFELY */}
+            {cart.length === 0 ? (
+                <h3 className="text-danger">No items in cart</h3>
+            ) : (
+                <>
+                    {/* 🔁 LOOP THROUGH CART ITEMS */}
+                    {cart.map((item, index) => (
+                        <div key={index} className="mb-3 border-bottom pb-2">
 
-            <img src={img_url + product.product_photo} alt="Product name" className='product_img'/>
+                            <img 
+                                src={img_url + item.product_photo} 
+                                alt={item.product_name} 
+                                className='product_img'
+                                style={{ width: "100px" }}
+                            />
 
-            <div className="card-body ">
-                <h2 className="text-info"> {product.product_name} </h2>
+                            <div className="card-body ">
+                                <h5 className="text-info"> {item.product_name} </h5>
 
-                <p className="text-dark"> {product.product_description} </p>
+                                <p className="text-dark"> {item.product_description} </p>
 
-                <h3 className="text-warning">Kes {product.product_cost} </h3> <br />
+                                <h6 className="text-warning">
+                                    Kes {item.product_cost} x {item.quantity}
+                                </h6>
+                            </div>
+                        </div>
+                    ))}
 
-                <form onSubmit={handlesubmit}>
+                    {/* ✅ TOTAL DISPLAY */}
+                    <h3 className="text-success">
+                        Total: Kes {totalAmount.toLocaleString()}
+                    </h3>
 
-                     {/* bind the loading hook */}
-                    {loading && <Loader />}
+                    <form onSubmit={handlesubmit}>
 
-                    {success && <h3 className="text-success"> {success} </h3>}
-                    {error && <h4 className="text-danger"> {error} </h4>}
+                        {/* bind the loading hook */}
+                        {loading && <Loader />}
 
-                    <label className='text-warning'>Enter phonenumber</label>
-                    <input type="number"
-                    className='form-control'
-                    placeholder='Enter the Phone number 254XXXXXXX'
-                    required
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)} /> <br />
+                        {success && <h3 className="text-success"> {success} </h3>}
+                        {error && <h4 className="text-danger"> {error} </h4>}
 
-                    {/* {number} */}
+                        <label className='text-warning'>Enter phonenumber</label>
+                        <input type="number"
+                        className='form-control'
+                        placeholder='Enter the Phone number 2547XXXXXXXX'
+                        required
+                        value={number}
+                        onChange={(e) => setNumber(e.target.value)} /> <br />
 
-                    <input type="submit"
-                    value="Make Payment"
-                    className='btn btn-success' />
-                </form>
-            </div>
+                        <input type="submit"
+                        value="Make Payment"
+                        className='btn btn-success' />
+                    </form>
+                </>
+            )}
         </div>
-        {/* <Footer/> */}
     </div>
   )
 }
