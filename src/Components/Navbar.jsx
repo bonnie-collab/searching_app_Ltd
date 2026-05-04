@@ -12,6 +12,7 @@ const Navbar = () => {
 
           {/* main navigation links on the left */}
           <Link to="/" className='btn btn-sm m-1'>🏠 Home</Link>
+           <Link to="/AboutUs" className='btn btn-sm btn-signup'>About Us</Link>
           <Link to="/addproducts" className='btn btn-sm m-1'>＋ Add Products</Link>
 
           {/* spacer pushes sign in and sign up to the far right */}

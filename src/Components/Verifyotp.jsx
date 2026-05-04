@@ -22,11 +22,11 @@ const VerifyOTP = () => {
     // read phone number saved in session storage by forgot password page
     const storedPhone = sessionStorage.getItem("reset_phone");
 
-    // ✅ Fix: log what is in sessionStorage to confirm it was saved correctly
+    // log what is in sessionStorage to confirm it was saved correctly
     console.log("Phone from sessionStorage:", storedPhone);
 
     if (!storedPhone) {
-      // ✅ Fix: changed /forgotpassword to /forgot-password to match the route
+      //changed /forgotpassword to /forgot-password to match the route
       // if no phone found redirect back to forgot password to start again
       navigate("/forgot-password");
     } else {
@@ -84,7 +84,7 @@ const VerifyOTP = () => {
       // clear the loading message once the otp is successfully resent
       setLoading("");
 
-      // ✅ show success message so user knows otp was resent
+      // show success message so user knows otp was resent
       setSuccess("OTP resent successfully! Check your phone.");
 
       // clear success message after 3 seconds
@@ -122,11 +122,11 @@ const VerifyOTP = () => {
     // show message while verification and password reset is in progress
     setLoading("Verifying OTP and resetting password...");
 
-    // ⚠️ TESTING BYPASS: accepts any 6-digit otp during development
+    //TESTING BYPASS: accepts any 6-digit otp during development
     // uncomment the line below and comment out the real check when testing is done
     // if (otp.length === 6)
 
-    // ✅ REAL OTP CHECK: uncomment this block when testing is done
+    // REAL OTP CHECK: uncomment this block when testing is done
     // if (otp.length === 6 && otp === realOtp)
 
     if (otp.length === 6) // ← BYPASS: remove this line in production and uncomment real check above
@@ -145,14 +145,14 @@ const VerifyOTP = () => {
         formdata
       );
 
-      // ✅ log full response for debugging in browser console
+      // log full response for debugging in browser console
       console.log("Reset response:", response);
       console.log("Reset response data:", response.data);
 
       // hide the loading once response is received
       setLoading("");
 
-      // ✅ Fix: check both response.data.success AND response.status
+      // check both response.data.success AND response.status
       // because sometimes backend returns 200 without a success field
       if (response.data.success || response.status === 200) {
 
@@ -165,7 +165,7 @@ const VerifyOTP = () => {
         // clear success message after 3 seconds
         setTimeout(() => setSuccess(""), 3000);
 
-        // ✅ redirect user to the sign in page after 3 seconds
+        // redirect user to the sign in page after 3 seconds
         setTimeout(() => {
           navigate("/signin");
         }, 3000);
@@ -179,7 +179,7 @@ const VerifyOTP = () => {
       // hide the loading indicator on error
       setLoading("");
 
-      // ✅ log the actual error to browser console for debugging
+      // log the actual error to browser console for debugging
       console.log("Reset error:", err);
       // console.log("Error response:", err.response);
 

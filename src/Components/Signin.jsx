@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // import the external css file that contains all styles for this signin component
 import '../css/Signin.css';
+// import Navbar from './Navbar';
 
 const Signin = () => {
 
@@ -63,10 +64,6 @@ const Signin = () => {
         setEmail("")
         setPassword("")
 
-
-        //  how to store users to the local storage
-        // localStorage.setItem("user", JSON.stringify(user));
-
         navigate("/getproduct2")   // home route
 
         // delay use to seee success massega
@@ -84,9 +81,9 @@ const Signin = () => {
         }, 3000);
       }
 
-        setTimeout(() => {
-          setSuccess("");
-        }, 3000);
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
 
     }
     catch (error) {
@@ -104,95 +101,159 @@ const Signin = () => {
   }
 
   return (
-    // full page wrapper — centers the card vertically and horizontally
-    <div className="signin-page">
+    <>
+      {/* Navbar moved inside return */}
+      {/* <Navbar /> */}
 
-      {/* ── sign in card ── */}
-      <div className="signin-card">
+      {/* Main split layout container */}
+      <div style={{
+        display: "flex",
+        height: "100vh",
+        overflow: "hidden"
+      }}>
 
-        {/* brand logo row at the top of the card */}
-        <div className="signin-brand">
-          <div className="signin-brand-icon">🛒</div>
-          <span className="signin-brand-name">SokoGarden</span>
+        {/* ── LEFT SIDE IMAGE (NEW) ── */}
+        <div style={{
+          flex: 1,
+          position: "relative"
+        }}>
+          <img
+            src="/images/excavator.jpg"
+            alt="construction"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover"
+            }}
+          />
+
+          {/* overlay text like your reference image */}
+          <div style={{
+            position: "absolute",
+            bottom: "40px",
+            left: "30px",
+            color: "#fff",
+            maxWidth: "300px"
+          }}>
+            <p style={{ fontSize: "0.9rem", marginBottom: "10px" }}>
+              “Access powerful machinery anytime, anywhere.”
+            </p>
+            <h4 style={{ margin: 0 }}>SEARCHING LTD</h4>
+            <small>CONSTRUCTION PLATFORM</small>
+          </div>
         </div>
 
-        {/* page heading and subtitle */}
-        <h1 className="signin-heading">Welcome back</h1>
-        <p className="signin-subheading">Sign in to your account to continue</p>
+        {/* ── RIGHT SIDE FORM (YOUR ORIGINAL CARD) ── */}
+        <div style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#f5f5f5"
+        }}>
 
-        {/* ── status messages ── */}
-        {/* loading indicator shown while the api request is in progress */}
-        {loading && (
-          <div className="signin-status loading">
-            ⏳ {loading}
-          </div>
-        )}
-
-        {/* success message shown after a successful login */}
-        {success && (
-          <div className="signin-status success">
-            ✅ {success}
-          </div>
-        )}
-
-        {/* error message shown when login fails */}
-        {error && (
-          <div className="signin-status error">
-            ⚠️ {error}
-          </div>
-        )}
-
-        {/* ── sign in form ── */}
-        <form onSubmit={handlesubmit}>
-
-          {/* enter email input */}
-          <div className="signin-field">
-            <label className="signin-label">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="signin-input"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          {/* enter password input */}
-          <div className="signin-field">
-            <label className="signin-label">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="signin-input"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          {/* submit button */}
-          <button type="submit" className="signin-btn">
-            Sign In
+          {/* ✅ Back Button (NEW) */}
+          <button
+            onClick={() => navigate("/")}
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              padding: "8px 14px",
+              cursor: "pointer"
+            }}
+          >
+            ← Back
           </button>
 
-        </form>
+          {/* ── sign in card ── */}
+          <div className="signin-card">
 
-        {/* Forgot Password Link */}
-        <div className="signin-forgot">
-          <span>Forgot your password? </span>
-          <Link to="/forgotpassword">Reset it here</Link>
+            {/* brand logo row at the top of the card */}
+            <div className="signin-brand">
+              <div className="signin-brand-icon">🛒</div>
+              <span className="signin-brand-name">SokoGarden</span>
+            </div>
+
+            {/* page heading and subtitle */}
+            <h1 className="signin-heading">Welcome back</h1>
+            <p className="signin-subheading">Sign in to your account to continue</p>
+
+            {/* ── status messages ── */}
+            {/* loading indicator shown while the api request is in progress */}
+            {loading && (
+              <div className="signin-status loading">
+                ⏳ {loading}
+              </div>
+            )}
+
+            {/* success message shown after a successful login */}
+            {success && (
+              <div className="signin-status success">
+                ✅ {success}
+              </div>
+            )}
+
+            {/* error message shown when login fails */}
+            {error && (
+              <div className="signin-status error">
+                ⚠️ {error}
+              </div>
+            )}
+
+            {/* ── sign in form ── */}
+            <form onSubmit={handlesubmit}>
+
+              {/* enter email input */}
+              <div className="signin-field">
+                <label className="signin-label">Email</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="signin-input"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              {/* enter password input */}
+              <div className="signin-field">
+                <label className="signin-label">Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  className="signin-input"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              {/* submit button */}
+              <button type="submit" className="signin-btn">
+                Sign In
+              </button>
+
+            </form>
+
+            {/* Forgot Password Link */}
+            <div className="signin-forgot">
+              <span>Forgot your password? </span>
+              <Link to="/forgotpassword">Reset it here</Link>
+            </div>
+
+            <hr className="signin-divider" />
+
+            {/* sign up prompt for new users */}
+            <div className="signin-signup-prompt">
+              Don't have an account? <Link to="/signup">Sign up</Link>
+            </div>
+
+          </div>
         </div>
-
-        <hr className="signin-divider" />
-
-        {/* sign up prompt for new users */}
-        <div className="signin-signup-prompt">
-          Don't have an account? <Link to="/signup">Sign up</Link>
-        </div>
-
       </div>
-    </div>
+    </>
   )
 }
 
