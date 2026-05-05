@@ -9,6 +9,8 @@ import Categoriesfeatures from './Categoriesfeatures';
 import HeroSection from './Herosection';
 import Howworks from './Howitworks';
 import Navbar from './Navbar';
+import ChatBox from './Chatbox';
+import Watchlist from './Watchlist';
 
 // import the external css file that contains all styles for this component
 // the file must be in the same folder as Getproducts.jsx
@@ -39,11 +41,22 @@ const Getproducts = () => {
   // searchTerm tracks what the user types in the search box
   const [searchTerm, setSearchTerm] = useState("");
 
+  // watchlist state
+  const [watchlist, setWatchlist] = useState([]);
+
   // declare the navigate hook
   const navigate = useNavigate();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // insert of the image url to display image
   const img_url = "https://bonnie.alwaysdata.net/static/images/";
+
+  useEffect(() => {
+    const userToken = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(Boolean(userToken && user));
+  }, []);
 
   // create a function to help fetch the products from you API
   const fetchProducts = async () => {
@@ -69,6 +82,18 @@ const Getproducts = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+// Function to add product to watchlist
+  const addToWatchlist = (product) => {
+    if (!watchlist.find(item => item.product_id === product.product_id)) {
+      setWatchlist([...watchlist, product]);
+    }
+  };
+
+// Function to remove product from watchlist
+  const removeFromWatchlist = (productId) => {
+    setWatchlist(watchlist.filter(item => item.product_id !== productId));
+  };
 
 // Filtering logic it produces the final list of products to display on screen
 // Filtering logic it produces the final list of products to display on screen
@@ -201,9 +226,25 @@ const filteredProducts = products.filter((product) => {
                 {/* purchase button */}
                 <button
                   className="btn btn-sm btn-outline-primary w-100 mt-1"
-                  onClick={() => navigate("/makepayments", { state: { product } })}
+                  onClick={() => {
+                    const userToken = localStorage.getItem('token');
+                    const user = localStorage.getItem('user');
+                    if (!userToken || !user) {
+                      navigate('/signin');
+                      return;
+                    }
+                    navigate("/makepayments", { state: { cart: [{ ...product, quantity: 1 }] } });
+                  }}
                 >
                   Buy
+                </button>
+
+                {/* add to watchlist button */}
+                <button
+                  className="btn btn-sm btn-outline-secondary w-100 mt-1"
+                  onClick={() => addToWatchlist(product)}
+                >
+                  Add to Watchlist
                 </button>
 
               </div>
@@ -215,7 +256,9 @@ const filteredProducts = products.filter((product) => {
 
       {/* links connecting componets to this page */}
       <Howworks/>
-      <Footer/> 
+      <Footer/>
+      <Watchlist watchlist={watchlist} removeFromWatchlist={removeFromWatchlist} />
+      <ChatBox />
     </div>
   );
 };

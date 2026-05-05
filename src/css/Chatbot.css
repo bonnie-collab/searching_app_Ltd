@@ -1,0 +1,246 @@
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* Toggle button */
+.chat-toggle {
+  width: 55px;
+  height: 55px;
+  background: #00d4aa;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Chat box */
+.chat-box {
+  width: 300px;
+  height: 380px;
+  background: #0a0f14;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Header */
+.chat-header {
+  background: #00d4aa;
+  color: #000;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+/* Messages */
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chat-msg {
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  max-width: 80%;
+  font-size: 0.85rem;
+}
+
+.chat-msg.user {
+  background: #00d4aa;
+  color: #000;
+  margin-left: auto;
+}
+
+.chat-msg.bot {
+  background: #1e2a35;
+  color: #fff;
+}
+
+/* Footer */
+.chat-footer {
+  display: flex;
+  border-top: 1px solid #222;
+}
+
+.chat-footer input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+.chat-footer button {
+  background: #00d4aa;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.watchlist-container {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  z-index: 1001;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+}
+
+.watchlist-summary {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.watchlist-count {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.watchlist-panel {
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+}
+
+.watchlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.watchlist-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.watchlist-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.watchlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.watchlist-item {
+  background: #f7f9fb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.watchlist-item-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.watchlist-item-meta {
+  font-size: 12px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.watchlist-empty {
+  color: #666;
+  font-size: 13px;
+  padding: 14px 0;
+  text-align: center;
+}
+
+.watchlist-chart {
+  margin-top: 16px;
+}
+
+.watchlist-chart-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.chart-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.chart-label {
+  width: 80px;
+  font-size: 12px;
+  color: #555;
+  text-transform: capitalize;
+}
+
+.chart-fill {
+  flex: 1;
+  height: 10px;
+  background: #e9f6f2;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.chart-fill-inner {
+  height: 100%;
+  background: #00d4aa;
+  border-radius: 999px;
+}
+
+.chart-value {
+  width: 26px;
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+}
+
+.btn-watchlist-clear,
+.btn-watchlist-open {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn-watchlist-clear {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.btn-watchlist-open {
+  background: #00d4aa;
+  color: #000;
+}

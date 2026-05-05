@@ -1,0 +1,126 @@
+.watchlist-container {
+  position: fixed;
+  bottom: 80px; /* Above chatbox on the right */
+  right: 20px;
+  z-index: 1000;
+}
+
+.watchlist-toggle {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  position: relative;
+}
+
+.watchlist-toggle:hover .hover-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hover-text {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+
+.watchlist-panel {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  width: 300px;
+  max-height: 400px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.watchlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+.watchlist-header h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.watchlist-header button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.watchlist-items {
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.watchlist-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.watchlist-item {
+  flex: 1 1 100px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #f9f9f9;
+}
+
+.watchlist-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.watchlist-item h6 {
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.watchlist-item p {
+  font-size: 11px;
+  margin: 0;
+  color: #007bff;
+}
+
+.watchlist-item button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 10px;
+  cursor: pointer;
+  margin-top: 5px;
+}

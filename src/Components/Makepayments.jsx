@@ -9,7 +9,7 @@ const Makepayments = () => {
     // ❌ OLD:
     // const {product} = useLocation().state || {}
 
-    // ✅ NEW: get cart + total from navigation OR fallback to localStorage
+    //  NEW: get cart + total from navigation OR fallback to localStorage
     const location = useLocation();
     const cart = location.state?.cart || JSON.parse(localStorage.getItem('apexCart')) || [];
 
@@ -19,7 +19,7 @@ const Makepayments = () => {
     // below we specify the image base url
     const img_url = "https://bonnie.alwaysdata.net/static/images/"
 
-    // ✅ Calculate total dynamically (important fix)
+    // Calculate total dynamically (important fix)
     const totalAmount = cart.reduce((sum, item) => {
         return sum + (item.product_cost * item.quantity);
     }, 0);
@@ -39,7 +39,7 @@ const Makepayments = () => {
     const handlesubmit = async (e) =>{
         e.preventDefault()
 
-        // ✅ VALIDATION (NEW)
+        //  VALIDATION (NEW)
         if (cart.length === 0) {
             setError("Your cart is empty");
             autoClear(setError);
@@ -70,8 +70,10 @@ const Makepayments = () => {
 
             setSuccess(response.data.message)
 
-            // ✅ OPTIONAL: clear cart after payment
+            // clear the shared cart state after payment
             localStorage.removeItem('apexCart');
+            window.dispatchEvent(new Event('storage'));
+            window.dispatchEvent(new Event('cartUpdate'));
 
             autoClear(setSuccess);
         }
@@ -91,12 +93,12 @@ const Makepayments = () => {
             <input type="button"
             className="btn btn-primary"
             value="<- Back"
-            onClick={() => navigate("/cart") } /> {/* ✅ go back to cart now */}
+            onClick={() => navigate("/") } /> {/*  go back to cart now */}
         </div>
 
         <div className="col-md-6 card shadow p-4">
 
-            {/* ✅ HANDLE EMPTY CART SAFELY */}
+            {/*  HANDLE EMPTY CART SAFELY */}
             {cart.length === 0 ? (
                 <h3 className="text-danger">No items in cart</h3>
             ) : (
@@ -124,7 +126,7 @@ const Makepayments = () => {
                         </div>
                     ))}
 
-                    {/* ✅ TOTAL DISPLAY */}
+                    {/* TOTAL DISPLAY */}
                     <h3 className="text-success">
                         Total: Kes {totalAmount.toLocaleString()}
                     </h3>

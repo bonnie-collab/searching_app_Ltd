@@ -222,3 +222,26 @@
     font-size: 19px;
   }
 }
+
+/* ── Login Alert ── */
+.ap-login-alert {
+  background: #fdf0ef;
+  border: 1px solid #f0b8b2;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.ap-login-alert p {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ap-danger);
+  margin: 0 0 16px 0;
+}
+
+.ap-login-alert button {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+}

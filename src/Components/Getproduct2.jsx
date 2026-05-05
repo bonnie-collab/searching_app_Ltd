@@ -72,8 +72,9 @@ const Getproducts = () => {
     // 🔥 UPDATED: save only to apexCart
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
 
-    // 🔥 KEEP: trigger navbar update
+    // 🔥 KEEP: trigger navbar update and cart component update
     window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('cartUpdate'));
 
     // 🔥 UPDATED: fix selector using correct product_id
     const button = document.querySelector(

@@ -28,6 +28,31 @@ const Cart = () => {
     }
   }, []);
 
+  // Listen for storage changes (when items are added from other components)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const savedCart = localStorage.getItem('apexCart');
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        setCart(parsedCart);
+        calculateTotal(parsedCart);
+      } else {
+        setCart([]);
+        setTotal(0);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for custom storage events dispatched by other components
+    window.addEventListener('cartUpdate', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('cartUpdate', handleStorageChange);
+    };
+  }, []);
+
   // Calculate total
   const calculateTotal = (cartItems) => {
     const sum = cartItems.reduce((acc, item) => {
@@ -52,6 +77,8 @@ const Cart = () => {
 
     // 🔔 ADDED: Notify other components (e.g., Navbar) to update cart count
     window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('cartUpdate'));
+    window.dispatchEvent(new Event('cartUpdate'));
   };
 
   // Remove item from cart
@@ -65,15 +92,15 @@ const Cart = () => {
 
     // Trigger Navbar cart count update
     window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('cartUpdate'));
   };
 
   // Update quantity
-  // Still uses item.id — ensure your items have unique IDs if you rely on this
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
-    
-    const updatedCart = cart.map(item => 
-      item.id === productId ? { ...item, quantity: newQuantity } : item
+
+    const updatedCart = cart.map(item =>
+      item.product_id === productId ? { ...item, quantity: newQuantity } : item
     );
     setCart(updatedCart);
     calculateTotal(updatedCart);
@@ -81,6 +108,7 @@ const Cart = () => {
 
     // Keep navbar in sync
     window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('cartUpdate'));
   };
 
   // Clear cart
@@ -91,11 +119,12 @@ const Cart = () => {
 
     // Update navbar after clearing cart
     window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('cartUpdate'));
   };
 
   // Proceed to checkout
   const proceedToCheckout = () => {
-    navigate('/makepayments', { state: { cart, total } });
+    navigate('/checkout', { state: { cartItems: cart, subtotal: total } });
   };
 
   return (
@@ -121,7 +150,7 @@ const Cart = () => {
         <div className="empty-cart">
           <div className="empty-icon">🛒</div>
           <h3>Your cart is empty</h3>
-          <p>Add some amazing gadgets to get started!</p>
+          <p>Add some amazing machinery and tools to get started!</p>
           <button 
             className="continue-shopping-btn"
             onClick={() => navigate('/getproduct2')}
@@ -165,14 +194,14 @@ const Cart = () => {
                     <div className="quantity-control">
                       <button 
                         className="quantity-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
                       >
                         -
                       </button>
                       <span className="quantity-display">{item.quantity}</span>
                       <button 
                         className="quantity-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
                       >
                         +
                       </button>

@@ -16,6 +16,7 @@ import Dashnavbar from './Components/Dashnavbar';
 import Profile from './Components/Profile';
 import Cart from './Components/Cart';
 import Checkout from "./Components/Checkout";
+import Aboutus from './Components/Aboutus';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         <Route path='/profile' element ={<Profile/>}/>
         <Route path='/cart' element ={<Cart/>}/>
         <Route path='/checkout' element ={<Checkout/>}/>    
+        <Route path ='/aboutus' element = {<Aboutus/>} />
       </Routes>
     </div>
     </Router>

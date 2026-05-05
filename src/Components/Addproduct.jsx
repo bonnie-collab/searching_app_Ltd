@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Loader from './Loader';
 import axios from 'axios';
 import '../css/Addproducts.css';  
@@ -15,14 +15,46 @@ const Addproducts = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const fileInputRef = useRef(null);
 
 
   // navigation hooks
   const navigate = useNavigate();
 
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken') || localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (userToken && user) {
+      setIsLoggedIn(true);
+      setCheckingAuth(false);
+    } else {
+      setIsLoggedIn(false);
+      setCheckingAuth(false);
+    }
+  }, []);
+
+  // Redirect to sign up if not logged in
+  const handleAddProduct = () => {
+    if (!isLoggedIn) {
+      setError("Please log in or sign up to add a product");
+      setTimeout(() => {
+        navigate("/signup");
+      }, 2000);
+      return;
+    }
+  };
+
   // handdle form submit function with try and caught error
   const handlesubmit = async (e) => {
+    // Check login first
+    if (!isLoggedIn) {
+      handleAddProduct();
+      return;
+    }
 
     // prevent site from reloading again
     e.preventDefault();
@@ -62,6 +94,44 @@ const Addproducts = () => {
       setError(error.message);
     }
   };
+
+  // Show loading while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="ap-wrapper">
+        <div className="ap-card">
+          <h3 className="ap-heading">Checking login status...</h3>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  // Show login prompt if not logged in
+  if (!isLoggedIn) {
+    return (
+      <div className="ap-wrapper">
+        <div className="ap-card">
+          <div className="col-md-1">
+            <input type="button"
+            className="btn btn-primary"
+            value="<- Back"
+            onClick={() => navigate("/") } />
+          </div>
+          <h3 className="ap-heading">Add a Product</h3>
+          <div className="ap-login-alert">
+            <p>You need to be logged in to add a product.</p>
+            <button className="btn btn-primary me-2" onClick={() => navigate("/signin")}>
+              Sign In
+            </button>
+            <button className="btn btn-success" onClick={() => navigate("/signup")}>
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     // bootstrap cards
