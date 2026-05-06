@@ -20,7 +20,7 @@ const Profile = () => {
 
   // Load saved profile image on mount
   useEffect(() => {
-    const savedImage = localStorage.getItem('cartProfileImage');
+    const savedImage = localStorage.getItem('apexProfileImage');
     if (savedImage) {
       setProfileImage(savedImage);
     }
@@ -39,7 +39,8 @@ const Profile = () => {
       reader.onload = (event) => {
         const imageData = event.target.result;
         setProfileImage(imageData);
-        localStorage.setItem('cartProfileImage', imageData);
+        localStorage.setItem('apexProfileImage', imageData);
+        window.dispatchEvent(new Event('profileImageUpdate'));
       };
       reader.readAsDataURL(file);
     }
@@ -47,13 +48,14 @@ const Profile = () => {
 
   const handleImageRemove = () => {
     setProfileImage('');
-    localStorage.removeItem('cartProfileImage');
+    localStorage.removeItem('apexProfileImage');
+    window.dispatchEvent(new Event('profileImageUpdate'));
   };
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    localStorage.removeItem('cartProfileImage');
+    // Keep apexProfileImage so the profile photo persists across logouts
     navigate('/signin');
   };
 

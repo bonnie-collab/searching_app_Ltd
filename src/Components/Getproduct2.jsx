@@ -69,14 +69,14 @@ const Getproducts = () => {
       updatedCart = [...existingCart, newItem];
     }
 
-    // 🔥 UPDATED: save only to apexCart
+    // save only to apexCart
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
 
-    // 🔥 KEEP: trigger navbar update and cart component update
+    // trigger navbar update and cart component update
     window.dispatchEvent(new Event('storage'));
     window.dispatchEvent(new Event('cartUpdate'));
 
-    // 🔥 UPDATED: fix selector using correct product_id
+    // fix selector using correct product_id
     const button = document.querySelector(
       `[data-product-id="${product.product_id}"] .add-to-cart-btn`
     );
@@ -223,12 +223,12 @@ const Getproducts = () => {
                   KSh {Math.floor(product.product_cost * 1.5)}
                 </div>
 
-                <button
+                {/* <button
                   className="btn btn-sm btn-outline-primary w-100 mt-1"
                   onClick={() => navigate("/makepayments", { state: { product } })}
                 >
                   Buy
-                </button>
+                </button> */}
 
                 {/* 🔥 UPDATED: fixed product id binding */}
                 <button

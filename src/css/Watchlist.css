@@ -1,7 +1,7 @@
 .watchlist-container {
   position: fixed;
-  bottom: 80px; /* Above chatbox on the right */
-  right: 20px;
+  bottom: 80px; /* Above chatbox on the left */
+  left: 20px;
   z-index: 1000;
 }
 
@@ -18,6 +18,22 @@
   cursor: pointer;
   font-size: 20px;
   position: relative;
+}
+
+.watchlist-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 0 5px;
 }
 
 .watchlist-toggle:hover .hover-text {
@@ -44,7 +60,7 @@
 .watchlist-panel {
   position: absolute;
   bottom: 60px;
-  right: 0;
+  left: 0;
   width: 300px;
   max-height: 400px;
   background-color: white;

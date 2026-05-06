@@ -4,6 +4,8 @@ import '../css/Watchlist.css';
 const Watchlist = ({ watchlist, removeFromWatchlist }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const itemCount = watchlist.length;
+
   const toggleWatchlist = () => {
     setIsOpen(!isOpen);
   };
@@ -13,6 +15,7 @@ const Watchlist = ({ watchlist, removeFromWatchlist }) => {
       {/* Watchlist Toggle Button */}
       <div className="watchlist-toggle" onClick={toggleWatchlist} title="Watchlist">
         <i className="fas fa-lock"></i>
+        {itemCount > 0 && <span className="watchlist-count">{itemCount}</span>}
         <span className="hover-text">Watchlist</span>
       </div>
 
@@ -20,7 +23,7 @@ const Watchlist = ({ watchlist, removeFromWatchlist }) => {
       {isOpen && (
         <div className="watchlist-panel">
           <div className="watchlist-header">
-            <h4>My Watchlist</h4>
+            <h4>My Watchlist ({itemCount})</h4>
             <button onClick={toggleWatchlist}>✖</button>
           </div>
           <div className="watchlist-items">

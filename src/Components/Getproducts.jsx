@@ -44,6 +44,17 @@ const Getproducts = () => {
   // watchlist state
   const [watchlist, setWatchlist] = useState([]);
 
+  // persist watchlist across refreshes and show count consistently
+  useEffect(() => {
+    const savedWatchlist = JSON.parse(localStorage.getItem('apexWatchlist') || '[]');
+    setWatchlist(savedWatchlist);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('apexWatchlist', JSON.stringify(watchlist));
+    window.dispatchEvent(new Event('watchlistUpdate'));
+  }, [watchlist]);
+
   // declare the navigate hook
   const navigate = useNavigate();
 

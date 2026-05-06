@@ -75,14 +75,14 @@ const Cart = () => {
     calculateTotal(updatedCart);
     localStorage.setItem('apexCart', JSON.stringify(updatedCart));
 
-    // 🔔 ADDED: Notify other components (e.g., Navbar) to update cart count
+    // Notify other components (e.g., Navbar) to update cart count
     window.dispatchEvent(new Event('storage'));
     window.dispatchEvent(new Event('cartUpdate'));
     window.dispatchEvent(new Event('cartUpdate'));
   };
 
   // Remove item from cart
-  // 🔧 MODIFIED: Use index instead of id to avoid removing all items with same id
+  //  Use index instead of id to avoid removing all items with same id
   const removeFromCart = (indexToRemove) => {
     const updatedCart = cart.filter((_, index) => index !== indexToRemove);
 
@@ -138,6 +138,15 @@ const Cart = () => {
       />
 
       <div className="section-header">
+
+        
+          <div className="col-md-1">
+            <input type="button"
+            className="btn btn-primary"
+            value="<- Back"
+            onClick={() => navigate("/getproduct2") } />
+          </div>
+
         <h2 className="cart-title">
           <span className="title-icon">🛒</span>
           Shopping Cart

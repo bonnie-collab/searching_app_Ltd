@@ -48,19 +48,23 @@ const Navbar = () => {
 
     // storage only works across tabs, so we add custom event too
     window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cartUpdate', updateCartCount);
     window.addEventListener('cartUpdated', updateCartCount);
 
     window.addEventListener('storage', updateProfileImage);
+    window.addEventListener('profileImageUpdate', updateProfileImage);
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
 
-      //  remove both listeners
+      // remove all cart update listeners
       window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('cartUpdate', updateCartCount);
       window.removeEventListener('cartUpdated', updateCartCount);
 
       window.removeEventListener('storage', updateProfileImage);
+      window.removeEventListener('profileImageUpdate', updateProfileImage);
     };
   }, []);
 
@@ -115,7 +119,7 @@ const Navbar = () => {
               <span className="nav-icon">🛒</span>
               <span className="nav-text">Cart</span>
 
-              {/* 🔥 NEW: cart count badge */}
+              {/* NEW: cart count badge */}
               {cartCount > 0 && (
                 <span className="cart-count">{cartCount}</span>
               )}

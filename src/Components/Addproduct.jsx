@@ -112,12 +112,14 @@ const Addproducts = () => {
     return (
       <div className="ap-wrapper">
         <div className="ap-card">
+          
           <div className="col-md-1">
             <input type="button"
             className="btn btn-primary"
             value="<- Back"
             onClick={() => navigate("/") } />
           </div>
+
           <h3 className="ap-heading">Add a Product</h3>
           <div className="ap-login-alert">
             <p>You need to be logged in to add a product.</p>
