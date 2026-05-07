@@ -122,7 +122,7 @@ const Profile = () => {
                 
                 <div className="user-info">
                   <h3 className="username-display">{user.username}</h3>
-                  <p className="user-status">● Apex Member</p>
+                  <p className="user-status">●A Member</p>
                 </div>
               </div>
             </div>
