@@ -112,12 +112,12 @@ const Addproducts = () => {
     return (
       <div className="ap-wrapper">
         <div className="ap-card">
-          
+
           <div className="col-md-1">
             <input type="button"
             className="btn btn-primary"
             value="<- Back"
-            onClick={() => navigate("/") } />
+            onClick={() => navigate("/getproduct2") } />
           </div>
 
           <h3 className="ap-heading">Add a Product</h3>

@@ -137,6 +137,7 @@ const Navbar = () => {
                   <div className="nav-underline"></div>
                 </Link>
               </li>
+
               <li>
                 <Link to="/signup" className={`apex-nav-cta ${isActive('/signup')}`}>
                   <span className="nav-icon">🚀</span>
@@ -144,6 +145,7 @@ const Navbar = () => {
                   <div className="cta-glow"></div>
                 </Link>
               </li>
+              
             </>
           ) : (
             <li className="user-profile">
