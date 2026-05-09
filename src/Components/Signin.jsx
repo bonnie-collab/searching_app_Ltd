@@ -172,7 +172,7 @@ const Signin = () => {
             {/* brand logo row at the top of the card */}
             <div className="signin-brand">
               <div className="signin-brand-icon">🛒</div>
-              <span className="signin-brand-name">SokoGarden</span>
+              <span className="signin-brand-name">Searching Ltd</span>
             </div>
 
             {/* page heading and subtitle */}

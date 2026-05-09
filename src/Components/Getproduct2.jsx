@@ -8,13 +8,13 @@ import Footer from './Footer';
 
 // define all product categories used in the navigation bar
 const categories = [
-  { label: "All",                value: "all"                },
-  { label: "Power Tools",        value: "power_tools"        },
-  { label: "Hand Tools",         value: "hand_tools"         },
-  { label: "Building Materials", value: "building_materials" },
-  { label: "Plumbing",           value: "plumbing"           },
-  { label: "Electrical",         value: "electrical"         },
-  { label: "Safety Gear",        value: "safety_gear"        },
+  { label: "All",                    value: "all"                  },
+  { label: "Power Tools",            value: "power_tools"          },
+  { label: "Hand Tools",             value: "hand_tools"           },
+  { label: "Building Materials",     value: "building_materials"   },
+  { label: "Plumbing",               value: "plumbing"             },
+  { label: "Electrical",             value: "electrical"           },
+  { label: "Safety Gear",            value: "safety_gear"          },
   { label: "Hire Plant & Machinery", value: "hire_plant_machinery" },
 ];
 
@@ -33,17 +33,17 @@ const Getproducts = () => {
   // declare navigate hook
   const navigate = useNavigate();
 
-  // ================= 🔥 MODIFIED ADD TO CART FUNCTION =================
+  // =================  MODIFIED ADD TO CART FUNCTION =================
   // (Updated using Code 2 logic + fixes)
   const addToCart = (product) => {
 
-    // 🔥 ADDED: ensure correct product id field
+    //  ensure correct product id field
     const productId = product.product_id;
 
-    // 🔥 UPDATED: use ONE storage key (apexCart) instead of searchcart
+    //   use ONE storage key (apexCart) instead of searchcart
     const existingCart = JSON.parse(localStorage.getItem('apexCart') || '[]');
 
-    // 🔥 ADDED: check if item already exists in cart
+    //  check if item already exists in cart
     const existingItemIndex = existingCart.findIndex(
       item => item.product_id === productId
     );
@@ -102,9 +102,31 @@ const Getproducts = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get("https://bonnie.alwaysdata.net/product/get_products");
+      // clear stale products before fetching so deleted items don't linger
+      setProducts([]);
 
-      setProducts(response.data);
+      //  append timestamp as a cache-busting param so the browser/server
+      //         never serves a cached response — always hits the live database
+      const response = await axios.get(
+        "https://bonnie.alwaysdata.net/product/get_products",
+        {
+          params: { _t: Date.now() },          // unique param per request
+          headers: {
+            'Cache-Control': 'no-cache',        // tell browser not to cache
+            'Pragma': 'no-cache',               // legacy HTTP/1.0 cache header
+          }
+        }
+      );
+
+      // only update state if the response actually contains an array
+      //         prevents accidentally setting products to undefined or null
+      if (Array.isArray(response.data)) {
+        setProducts(response.data);
+      } else {
+        // api returned unexpected format — treat as empty
+        setProducts([]);
+      }
+
       setLoading(false);
     }
     catch (error) {
@@ -188,7 +210,7 @@ const Getproducts = () => {
       {/* PRODUCT GRID */}
       <div className='row px-3'>
 
-        {/* empty state */}
+        {/* empty state — shown when no products match or database table is empty */}
         {filteredProducts.length === 0 && !loading && (
           <div className="pnav-empty">
             No products found for <strong>{categories.find(c => c.value === activeCategory)?.label}</strong>
@@ -223,14 +245,7 @@ const Getproducts = () => {
                   KSh {Math.floor(product.product_cost * 1.5)}
                 </div>
 
-                {/* <button
-                  className="btn btn-sm btn-outline-primary w-100 mt-1"
-                  onClick={() => navigate("/makepayments", { state: { product } })}
-                >
-                  Buy
-                </button> */}
-
-                {/* 🔥 UPDATED: fixed product id binding */}
+                {/*fixed product id binding */}
                 <button
                   data-product-id={product.product_id}
                   className='add-to-cart-btn'

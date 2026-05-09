@@ -207,7 +207,7 @@ const Footer = () => {
             <h6>Contact</h6>
             <ul className="footer-contact-list">
               <li>info@searchinglimited.com</li>
-              <li>+254 700 000 000</li>
+              <li>+254 758 200 909</li>
               <li>Nairobi, Kenya</li>
             </ul>
           </div>
@@ -233,4 +233,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default Footer;

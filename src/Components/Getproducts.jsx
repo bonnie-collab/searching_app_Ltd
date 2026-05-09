@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/Products.css"; // import the external css
 import Footer from './Footer';
-import Mycarousel from './Mycarousel';
+// import Mycarousel from './Mycarousel';
 import Categoriesfeatures from './Categoriesfeatures';
 import HeroSection from './Herosection';
 import Howworks from './Howitworks';
@@ -179,7 +179,7 @@ const filteredProducts = products.filter((product) => {
         </div>
 
         {/* exported components section */}
-        <Mycarousel/>
+        {/* <Mycarousel/> */}
         <Categoriesfeatures/>
 
       </div>

@@ -56,7 +56,8 @@ const Profile = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     // Keep apexProfileImage so the profile photo persists across logouts
-    navigate('/signin');
+    // Redirect user to the home page after logout
+    navigate('/');
   };
 
   return (

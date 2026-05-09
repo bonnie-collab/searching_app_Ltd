@@ -16,7 +16,7 @@ const values = [
 
 // Team members
 const team = [
-  { name: "James Mwangi", role: "CEO & Founder", img: "https://i.pravatar.cc/300?img=12" },
+  { name: "Okeyo Bonface", role: "CEO & Founder", img: "https://i.pravatar.cc/300?img=12" },
   { name: "Grace Atieno", role: "Operations Director", img: "https://i.pravatar.cc/300?img=32" },
   { name: "David Kimani", role: "Head of Engineering", img: "https://i.pravatar.cc/300?img=53" },
   { name: "Amina Hassan", role: "Marketing Lead", img: "https://i.pravatar.cc/300?img=44" },
@@ -34,7 +34,7 @@ const Aboutus = () => {
         <h1>About Machinery & Plants</h1>
         <p>
           East Africa's leading marketplace for hiring, buying, and selling heavy
-          machinery and construction equipment — empowering builders and businesses since 2020.
+          machinery and construction equipment — empowering builders and businesses since 2026.
         </p>
       </section>
 
