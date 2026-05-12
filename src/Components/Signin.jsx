@@ -152,7 +152,7 @@ const Signin = () => {
           background: "#f5f5f5"
         }}>
 
-          {/* ✅ Back Button (NEW) */}
+          {/*  Back Button (NEW) */}
           <button
             onClick={() => navigate("/")}
             style={{
@@ -190,14 +190,14 @@ const Signin = () => {
             {/* success message shown after a successful login */}
             {success && (
               <div className="signin-status success">
-                ✅ {success}
+                 {success}
               </div>
             )}
 
             {/* error message shown when login fails */}
             {error && (
               <div className="signin-status error">
-                ⚠️ {error}
+                 {error}
               </div>
             )}
 

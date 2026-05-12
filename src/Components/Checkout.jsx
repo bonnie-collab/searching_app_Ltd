@@ -44,7 +44,6 @@ const Mpesapayment = () => {
     // Determine whether the user is logged in from localStorage
     const userToken = localStorage.getItem('token');
     const user = localStorage.getItem('user');
-
     setIsLoggedIn(Boolean(userToken && user));
   }, []);
 
@@ -88,7 +87,7 @@ const Mpesapayment = () => {
       data.append("items", JSON.stringify(items));
 
       // Submit payment information to the backend M-Pesa endpoint
-      const response = await axios.post("https://bonnie.alwaysdata.net/api/mpesa_payment",data)
+      const response = await axios.post("https://bonnie.alwaysdata.net/api/mpesa_payment", data);
 
       setSuccess(response.data.message || "Payment completed successfully!");
       setPaid(true);
@@ -99,9 +98,15 @@ const Mpesapayment = () => {
       setLocalDeliveryFee(0);
       setLocalTotal(0);
       setPhone("");
-      localStorage.removeItem('Cart');
+
+      // FIX: corrected storage key from 'Cart' to 'apexCart' — the wrong key
+      // was the reason the cart items persisted after payment was completed
+      localStorage.removeItem('apexCart');
+
+      // Notify the Cart component and Navbar to reset their count to zero
       window.dispatchEvent(new Event('storage'));
       window.dispatchEvent(new Event('cartUpdate'));
+
     } catch (err) {
       setError("Payment failed. Please try again.");
       console.error(err);
@@ -112,7 +117,6 @@ const Mpesapayment = () => {
 
   if ((!items || items.length === 0) && !paid) {
     return (
-      
       <div className="row justify-content-center mt-5">
         <div className="col-md-6">
           <div className="card shadow p-4 text-center">
@@ -130,9 +134,7 @@ const Mpesapayment = () => {
   if (paid) {
     return (
       <div className="row justify-content-center mt-5">
-
         <div className="col-md-6">
-
           <div className="card shadow p-4 text-center">
             <h3 className="mb-3">Payment Complete</h3>
             <p className="text-muted mb-4">Your order has been processed. The checkout has been reset.</p>
@@ -140,18 +142,14 @@ const Mpesapayment = () => {
               Continue shopping
             </button>
           </div>
-          
         </div>
-
       </div>
     );
   }
-  
 
   return (
-    
     <div className="row justify-content-center mt-3">
-      
+
       {loading && <Loader />}
       {success && <p className="text-success text-center">{success}</p>}
       {error && <p className="text-danger text-center">{error}</p>}
@@ -160,14 +158,13 @@ const Mpesapayment = () => {
 
       <div className="col-md-6">
 
-        
-          <div className="col-md-1">
-            <input type="button"
+        <div className="col-md-1">
+          <input type="button"
             className="btn btn-primary"
             value="<- Back"
-            onClick={() => navigate("/cart") } />
-          </div>
-        
+            onClick={() => navigate("/cart")} />
+        </div>
+
         <h3>Order Summary</h3>
 
         {items.map((item) => (
@@ -178,43 +175,35 @@ const Mpesapayment = () => {
               className="me-3"
               style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px" }}
             />
-
             <div className="flex-grow-1">
               <h5 className="mb-1">{item.product_name}</h5>
               <p className="text-danger mb-0">KES {Number(item.product_cost).toLocaleString()}</p>
               <small className="text-muted">Quantity: {item.quantity || 1}</small>
             </div>
-
             <div className="fw-bold ms-3">
               KES {(Number(item.product_cost) * (item.quantity || 1)).toLocaleString()}
             </div>
-
           </div>
         ))}
 
         <div className="mt-3 border-top pt-3">
-
           <div className="d-flex justify-content-between mb-2">
             <span>Subtotal:</span>
             <span>KES {localSubtotal.toLocaleString()}</span>
           </div>
-
           <div className="d-flex justify-content-between mb-2">
             <span>Delivery:</span>
             <span>KES {localDeliveryFee.toLocaleString()}</span>
           </div>
-
           <div className="d-flex justify-content-between fw-bold fs-5">
             <span>Grand Total:</span>
             <span>KES {grandTotal.toLocaleString()}</span>
           </div>
-
         </div>
       </div>
 
       <div className="col-md-5">
         <div className="card shadow p-4 text-center">
-
           <form onSubmit={submit}>
             <label className="form-label fw-semibold">Enter your phone number</label>
             <input
@@ -229,7 +218,6 @@ const Mpesapayment = () => {
               Complete Payment
             </button>
           </form>
-
         </div>
       </div>
     </div>
